@@ -284,10 +284,29 @@ dialog::backdrop { background: rgb(0 0 0 / 30%); }
   --danger:         #f85149;
 }
 
-/* Body & shell */
-[data-theme="dark"] body {
+/* Body & shell — selector MUST be body[data-theme] because the attribute IS on body */
+body[data-theme="dark"] {
   background: #0d1117;
-  color: var(--slds-text);
+  color: #e6edf3;
+}
+
+/* Section headings — explicit color so they're never invisible */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3 {
+  color: #e6edf3;
+}
+
+/* Give standalone section-head h2 a subtle left accent + bump contrast */
+[data-theme="dark"] .section-head > h2 {
+  color: #ffffff;
+  padding-left: 0.55rem;
+  border-left: 3px solid var(--slds-blue);
+}
+
+/* Backup status sits directly on body bg — keep it readable */
+[data-theme="dark"] .backup-status {
+  color: #58a6ff;
 }
 
 /* Topbar / Tab bar */
