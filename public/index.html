@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LATAM Transformation Plan — Cockpit</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="appShell">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <img class="topbar-logo" src="./assets/salesforce-logo.png" alt="Salesforce" />
+          <div>
+            <p class="eyebrow">Execution Governance · Live Cockpit</p>
+            <h1>LATAM Transformation Plan</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button id="addActionBtn" class="btn btn-brand">+ Add Activity</button>
+          <button id="downloadBackupBtn" class="btn">Download Backup</button>
+          <button id="logoutBtn" class="btn">Logout</button>
+        </div>
+      </header>
+      <p id="backupStatus" class="backup-status">Backup status: checking...</p>
+
+      <!-- Executive KPI strip -->
+      <section id="kpiStrip" class="kpi-strip"></section>
+
+      <!-- This Week: owner to-dos + meeting/Slack control -->
+      <section class="week-head section-head">
+        <h2>This Week — To-Dos Before Wednesday</h2>
+        <span id="meetingCountdown" class="badge badge-amber">next meeting …</span>
+      </section>
+      <div class="week-grid">
+        <article class="card week-todos">
+          <div class="card-head">
+            <h3>Owner To-Do Board</h3>
+            <span class="hint">Open items due on/before the next Wednesday governance meeting — this is exactly what each owner receives via Slack Monday morning.</span>
+          </div>
+          <div id="ownerTodoBoard" class="owner-board"></div>
+        </article>
+        <aside class="card slack-panel">
+          <div class="card-head"><h3>Slack Monday Reminder</h3></div>
+          <p id="slackStatus" class="slack-status">Checking configuration…</p>
+          <ul id="slackOwnerMapping" class="mini-list"></ul>
+          <div class="slack-actions">
+            <button id="previewRemindersBtn" class="btn">Preview messages</button>
+            <button id="sendRemindersBtn" class="btn btn-brand">Send now</button>
+          </div>
+          <p id="slackSchedule" class="hint"></p>
+          <p id="sendResult" class="slack-status"></p>
+        </aside>
+      </div>
+
+      <section>
+        <h2>Pillar Overview</h2>
+        <div id="pillarCards" class="pillar-grid"></div>
+      </section>
+
+      <section class="filters-head"><h2>Filters</h2></section>
+      <section class="filters card">
+        <label>Pillar<select id="pillarFilter"></select></label>
+        <label>Activity Tag<select id="activityTagFilter"></select></label>
+        <label>Owner<select id="ownerFilter"></select></label>
+        <label>Status<select id="statusFilter"></select></label>
+        <label>Urgency<select id="urgencyFilter"></select></label>
+        <label>Search<input id="searchFilter" type="search" placeholder="Search activity or help needed" /></label>
+        <label>Sort By<select id="sortFilter"></select></label>
+      </section>
+
+      <section class="table-section">
+        <div class="section-head">
+          <h2>Activity Plan</h2>
+          <span id="rowCount" class="badge">0 actions</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Pillar</th><th>Activity</th><th>Description</th>
+                <th>Progress</th><th>Help Needed</th><th>Owner</th><th>Due Date</th>
+                <th>Status</th><th>Progress %</th><th>Remove</th>
+              </tr>
+            </thead>
+            <tbody id="actionsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Weekly Focus</h2>
+        <div class="weekly-grid">
+          <article class="card"><h3>Overdue Actions</h3><ul id="overdueList"></ul></article>
+          <article class="card"><h3>Blocked Actions</h3><ul id="blockedList"></ul></article>
+          <article class="card"><h3>Help Requests</h3><ul id="helpList"></ul></article>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="actionDialog">
+      <form id="newActionForm" method="dialog">
+        <h3>Add New Activity</h3>
+        <div class="dialog-grid">
+          <label>Pillar<select name="pillar" required></select></label>
+          <label class="full">Activity<textarea name="action" rows="2" required></textarea></label>
+          <label>Owner<input name="owner" required /></label>
+          <label>Due Date<input name="dueDate" type="date" required /></label>
+          <label>Status
+            <select name="status" required>
+              <option>Not Started</option><option>In Progress</option>
+              <option>Blocked</option><option>Completed</option>
+            </select>
+          </label>
+          <label class="full">Progress<textarea name="progressText" rows="2"></textarea></label>
+          <label>Progress %<input name="progress" type="number" min="0" max="100" value="0" /></label>
+          <label class="full">Description<textarea name="description" rows="2"></textarea></label>
+          <label class="full">Help Needed<textarea name="helpNeeded" rows="2"></textarea></label>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" id="cancelDialogBtn" class="btn">Cancel</button>
+          <button type="submit" class="btn btn-brand">Save Activity</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="previewDialog">
+      <div class="preview-head">
+        <h3>Slack reminder preview</h3>
+        <button type="button" id="closePreviewBtn" class="btn">Close</button>
+      </div>
+      <div id="previewBody" class="preview-body"></div>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

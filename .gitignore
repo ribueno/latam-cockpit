@@ -1,0 +1,6 @@
+node_modules/
+.env
+data/backups/
+slack/owners.json
+npm-debug.log*
+.DS_Store

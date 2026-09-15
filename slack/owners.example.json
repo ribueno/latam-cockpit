@@ -1,0 +1,12 @@
+{
+  "_comment": "Copy to slack/owners.json and fill in real Slack IDs or emails. Keys are plan owner names (case-insensitive). Use slackId (U...) OR email (bot needs users:read.email to resolve email).",
+  "Robin Gray": { "email": "robin.gray@salesforce.com" },
+  "Fabio Tamaki": { "email": "fabio.tamaki@salesforce.com" },
+  "Emily Coban": { "email": "emily.coban@salesforce.com" },
+  "Cleri Inhauser": { "email": "cleri.inhauser@salesforce.com" },
+  "Leandro Ventura": { "email": "leandro.ventura@salesforce.com" },
+  "Mariano Buttigliero": { "email": "mariano.buttigliero@salesforce.com" },
+  "Julian Mesa": { "email": "julian.mesa@salesforce.com" },
+  "Aline Faria": { "email": "aline.faria@salesforce.com" },
+  "Renato Ceadareanu": { "email": "renato.ceadareanu@salesforce.com" }
+}

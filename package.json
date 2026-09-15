@@ -1,0 +1,25 @@
+{
+  "name": "latam-cockpit",
+  "version": "1.0.0",
+  "description": "LATAM ProServ Transformation Plan — live execution cockpit with Slack weekly reminders",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "reminders:preview": "node scripts/send-reminders.js --dry-run",
+    "reminders:send": "node scripts/send-reminders.js"
+  },
+  "dependencies": {
+    "@slack/web-api": "^7.8.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "node-cron": "^3.0.3"
+  }
+}

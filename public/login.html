@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LATAM Plan Login</title>
+    <style>
+      :root { --blue: #0176d3; --border: #dddbda; --text: #181818; --muted: #3e3e3c; }
+      * { box-sizing: border-box; font-family: "Salesforce Sans", "Helvetica Neue", Arial, sans-serif; }
+      body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+             background: linear-gradient(180deg, #eef4ff 0%, #f3f3f3 40%); color: var(--text); }
+      .card { width: min(420px, calc(100vw - 2rem)); background: #fff; border: 1px solid var(--border);
+              border-radius: 12px; padding: 1.4rem; box-shadow: 0 4px 14px rgb(0 0 0 / 7%); }
+      .brand { display:flex; align-items:center; gap:.6rem; margin-bottom:.6rem; }
+      .brand img { width: 44px; height: 30px; object-fit: contain; }
+      h1 { margin: 0 0 0.25rem; font-size: 1.25rem; }
+      p { margin: 0 0 1rem; color: var(--muted); font-size: 0.9rem; }
+      label { display: block; margin-bottom: 0.25rem; font-size: 0.8rem; font-weight: 700; }
+      input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.65rem; margin-bottom: 0.8rem; }
+      button { width: 100%; border: 1px solid #014486; background: var(--blue); color: #fff;
+               border-radius: 6px; font-weight: 700; padding: 0.58rem; cursor: pointer; }
+      .error { min-height: 1rem; color: #ba0517; font-size: 0.78rem; margin-top: 0.65rem; }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="brand">
+        <img src="./assets/salesforce-logo.png" alt="Salesforce" />
+        <h1>LATAM Transformation Plan</h1>
+      </div>
+      <p>Sign in to access the execution cockpit.</p>
+      <form id="loginForm">
+        <label for="username">Username</label>
+        <input id="username" name="username" autocomplete="username" required />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+        <button type="submit">Sign in</button>
+        <div id="errorMessage" class="error"></div>
+      </form>
+    </main>
+    <script>
+      const form = document.querySelector("#loginForm");
+      const errorMessage = document.querySelector("#errorMessage");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorMessage.textContent = "";
+        const formData = new FormData(form);
+        const payload = {
+          username: String(formData.get("username") || "").trim(),
+          password: String(formData.get("password") || ""),
+        };
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) { errorMessage.textContent = "Invalid credentials. Please try again."; return; }
+        window.location.href = "/";
+      });
+    </script>
+  </body>
+</html>
