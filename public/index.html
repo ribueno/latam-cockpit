@@ -38,6 +38,12 @@
         <!-- Executive Summary -->
         <section id="kpiStrip" class="kpi-strip"></section>
 
+        <!-- Pillar Overview -->
+        <section>
+          <h2>Pillar Overview</h2>
+          <div id="pillarCards" class="pillar-grid"></div>
+        </section>
+
         <!-- 30/60/90 Horizon Swimlanes -->
         <section class="section-head horizon-head">
           <h2>30 / 60 / 90-Day Plan Progress</h2>
@@ -48,7 +54,10 @@
         <!-- Wins momentum panel -->
         <section class="section-head wins-head">
           <h2>✅ Wins &amp; Completed</h2>
-          <span id="winsCount" class="badge badge-green">0 done</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <span id="winsCount" class="badge badge-green">0 done</span>
+            <button id="toggleWinsBtn" class="btn btn-toggle-wins">Hide</button>
+          </div>
         </section>
         <div id="winsPanel" class="wins-panel"></div>
 
@@ -77,12 +86,6 @@
             <p id="sendResult" class="slack-status"></p>
           </aside>
         </div>
-
-        <!-- Pillar overview -->
-        <section>
-          <h2>Pillar Overview</h2>
-          <div id="pillarCards" class="pillar-grid"></div>
-        </section>
 
         <!-- Weekly Focus -->
         <section>

@@ -33,6 +33,7 @@ const els = {
   searchFilter: $("#searchFilter"), sortFilter: $("#sortFilter"),
   urgencyFilter: $("#urgencyFilter"), horizonFilter: $("#horizonFilter"),
   horizonSwimlanesWrap: $("#horizonSwimlanesWrap"), winsPanel: $("#winsPanel"), winsCount: $("#winsCount"),
+  toggleWinsBtn: $("#toggleWinsBtn"),
   actionDialog: $("#actionDialog"), addActionBtn: $("#addActionBtn"), downloadBackupBtn: $("#downloadBackupBtn"),
   logoutBtn: $("#logoutBtn"), backupStatus: $("#backupStatus"), cancelDialogBtn: $("#cancelDialogBtn"),
   newActionForm: $("#newActionForm"), kpiStrip: $("#kpiStrip"), ownerTodoBoard: $("#ownerTodoBoard"),
@@ -118,6 +119,10 @@ function bindEvents() {
   els.closePreviewBtn.addEventListener("click", () => els.previewDialog.close());
   els.previewRemindersBtn.addEventListener("click", previewReminders);
   els.sendRemindersBtn.addEventListener("click", sendReminders);
+  els.toggleWinsBtn.addEventListener("click", () => {
+    const hidden = els.winsPanel.classList.toggle("hidden");
+    els.toggleWinsBtn.textContent = hidden ? "Show" : "Hide";
+  });
 
   els.newActionForm.addEventListener("submit", async (event) => {
     event.preventDefault();
