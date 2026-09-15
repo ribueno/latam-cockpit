@@ -79,17 +79,6 @@
             </div>
             <div id="ownerTodoBoard" class="owner-board"></div>
           </article>
-          <aside class="card slack-panel">
-            <div class="card-head"><h3>Slack Monday Reminder</h3></div>
-            <p id="slackStatus" class="slack-status">Checking configuration…</p>
-            <ul id="slackOwnerMapping" class="mini-list"></ul>
-            <div class="slack-actions">
-              <button id="previewRemindersBtn" class="btn">Preview messages</button>
-              <button id="sendRemindersBtn" class="btn btn-brand">Send now</button>
-            </div>
-            <p id="slackSchedule" class="hint"></p>
-            <p id="sendResult" class="slack-status"></p>
-          </aside>
         </div>
 
         <!-- Weekly Focus -->
@@ -102,6 +91,21 @@
           <article class="card"><h3>Blocked Actions</h3><ul id="blockedList"></ul></article>
           <article class="card"><h3>Help Requests</h3><ul id="helpList"></ul></article>
         </div>
+
+        <!-- Slack Monday Reminder (bottom) -->
+        <section class="section-head" style="margin-top:1.5rem">
+          <h2>Slack Monday Reminder</h2>
+        </section>
+        <aside class="card slack-panel" style="max-width:480px">
+          <p id="slackStatus" class="slack-status">Checking configuration…</p>
+          <ul id="slackOwnerMapping" class="mini-list"></ul>
+          <div class="slack-actions">
+            <button id="previewRemindersBtn" class="btn">Preview messages</button>
+            <button id="sendRemindersBtn" class="btn btn-brand">Send now</button>
+          </div>
+          <p id="slackSchedule" class="hint"></p>
+          <p id="sendResult" class="slack-status"></p>
+        </aside>
 
       </div><!-- /tab-cockpit -->
 
