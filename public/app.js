@@ -362,6 +362,7 @@ function renderOwnerBoard() {
         return `<div class="todo ${u}">
           <div class="u-tag ${u}">${u === "overdue" ? "Overdue" : u === "blocked" ? "Blocked" : "Due " + fmtDate(it.dueDate)}</div>
           <div class="t-title">${escapeHtml(it.action)}</div>
+          ${it.liveStatus && it.liveStatus.trim() ? `<div class="t-live-status">⚡ ${escapeHtml(it.liveStatus.trim())}</div>` : ""}
           <div class="t-meta">${escapeHtml(it.pillar)} · ${it.progress || 0}%${it.helpNeeded && it.helpNeeded.trim() ? " · ⚠ help needed" : ""}</div>
         </div>`;
       }).join("")}
@@ -408,6 +409,7 @@ function renderTable(items) {
       <td>${renderTextarea("owner", item.owner)}</td>
       <td>${renderDateInput("dueDate", item.dueDate)}</td>
       <td>${renderSelect("status", item.status, STATUSES)}</td>
+      <td class="td-live-status"><textarea data-field="liveStatus" rows="2" class="live-status-input" placeholder="Quick update…">${escapeHtml(item.liveStatus || "")}</textarea></td>
       <td>${renderNumberInput("progress", item.progress)}</td>
       <td><select data-field="horizon" style="border-left:3px solid ${hColor}">${HORIZONS.map((hv) => `<option value="${hv}" ${hv===h?"selected":""}>${hv}d</option>`).join("")}</select></td>
       <td><button class="btn remove-row">Delete</button></td>

@@ -196,13 +196,35 @@ input, select, textarea { border: 1px solid var(--slds-border); border-radius: 0
                           background: #fff; color: var(--slds-text); }
 input:focus, select:focus, textarea:focus { outline: 2px solid rgb(1 118 211 / 24%); border-color: var(--slds-blue); }
 
+/* Live Status */
+.live-status-input {
+  background: #fffbf0 !important;
+  border-color: #fe9339 !important;
+  font-style: italic;
+}
+.live-status-input:focus {
+  outline-color: rgb(254 147 57 / 35%) !important;
+  border-color: #fe9339 !important;
+  font-style: normal;
+}
+.t-live-status {
+  font-size: 0.72rem;
+  color: #8a4500;
+  font-style: italic;
+  margin: 0.1rem 0 0.15rem;
+  padding: 0.1rem 0.3rem;
+  background: #fff8ef;
+  border-radius: 3px;
+  border-left: 2px solid #fe9339;
+}
+
 /* Table */
 .table-section { margin-top: 1rem; }
 .plan-filters-head { margin-top: 1rem; }
 .plan-filters-title { display: flex; align-items: center; gap: 0.65rem; }
 .plan-filters-title h2 { margin: 0; }
 .table-wrap { background: #fff; border: 1px solid var(--slds-border); border-radius: 0.5rem; overflow: auto; max-height: 72vh; margin-top: 0.75rem; }
-table { width: 100%; border-collapse: collapse; min-width: 1460px; }
+table { width: 100%; border-collapse: collapse; min-width: 1680px; }
 th, td { border-bottom: 1px solid #f0efef; padding: 0.45rem; vertical-align: top; }
 th:nth-child(1), td:nth-child(1) { width: 100px; }
 th:nth-child(2), td:nth-child(2) { width: 190px; }
@@ -213,8 +235,9 @@ th:nth-child(6), td:nth-child(6) { width: 300px; }
 th:nth-child(7), td:nth-child(7) { width: 150px; }
 th:nth-child(8), td:nth-child(8) { width: 130px; }
 th:nth-child(9), td:nth-child(9) { width: 165px; }
-th:nth-child(10), td:nth-child(10) { width: 90px; }
-th:nth-child(11), td:nth-child(11) { width: 95px; }
+th:nth-child(10), td:nth-child(10) { width: 220px; }
+th:nth-child(11), td:nth-child(11) { width: 90px; }
+th:nth-child(12), td:nth-child(12) { width: 95px; }
 th { position: sticky; top: 0; background: var(--slds-blue); color: #fff; text-align: left; font-size: calc(0.72rem + 3pt); }
 td { font-size: 0.8rem; }
 tr.row-overdue td:first-child { box-shadow: inset 3px 0 0 var(--danger); }

@@ -132,7 +132,7 @@
               <tr>
                 <th>ID</th><th>Pillar</th><th>Activity</th><th>Description</th>
                 <th>Progress</th><th>Help Needed</th><th>Owner</th><th>Due Date</th>
-                <th>Status</th><th>%</th><th>Phase</th><th>Remove</th>
+                <th>Status</th><th>⚡ Live Status</th><th>%</th><th>Phase</th><th>Remove</th>
               </tr>
             </thead>
             <tbody id="actionsTableBody"></tbody>
@@ -168,6 +168,7 @@
           <label>Progress %<input name="progress" type="number" min="0" max="100" value="0" /></label>
           <label class="full">Description<textarea name="description" rows="2"></textarea></label>
           <label class="full">Help Needed<textarea name="helpNeeded" rows="2"></textarea></label>
+          <label class="full">⚡ Live Status <span style="font-weight:400;color:#888">(quick update for the team)</span><textarea name="liveStatus" rows="1" placeholder="e.g. Waiting on customer response…"></textarea></label>
         </div>
         <div class="dialog-actions">
           <button type="button" id="cancelDialogBtn" class="btn">Cancel</button>

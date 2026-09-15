@@ -12,7 +12,8 @@
       "progress": 85,
       "progressText": "TV Azteca - Release 2 Started July\nCDF - In proposal\nAuto-save test ✓",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Build our offerings with 25% of price reduction",
@@ -26,7 +27,8 @@
       "progress": 0,
       "progressText": "",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Internal process and financial mechanics for the new investment model",
@@ -40,7 +42,8 @@
       "progress": 0,
       "progressText": "No budget for extra SWEs. For Bradesco, Claro CO, Dataprev, Prodesp and Agibank we are good.\n",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Review the possibility of using Quantum Leap on Vibra's Proposal",
@@ -54,7 +57,8 @@
       "progress": 80,
       "progressText": "Team has tested the \"Scopezilla\" app to understand how to deliver a proposal using the Quantum Leap.\nScope completed and presented to customer last Friday 19th of June.",
       "status": "In Progress",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Scale rollout massive of the ADP platform within the organization",
@@ -68,7 +72,8 @@
       "progress": 10,
       "progressText": "Projects currently rolling out:\n\nTV Azteca\nTECO B2B\nClaro Colombia\nProdesp",
       "status": "In Progress",
-      "horizon": 90
+      "horizon": 90,
+      "liveStatus": ""
     },
     {
       "action": "ADP Governance Plan",
@@ -82,7 +87,8 @@
       "progress": 10,
       "progressText": "",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Resolve the issue with subco vs AI Tools",
@@ -96,7 +102,8 @@
       "progress": 0,
       "progressText": "",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Track team enablement for ADP ",
@@ -110,7 +117,8 @@
       "progress": 10,
       "progressText": "",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Define Partner Engagement",
@@ -124,7 +132,8 @@
       "progress": 100,
       "progressText": "Meeting with Maria Dolores held on the 17th of June where she requested that we move forward with a Mexico trial. She requested a second meeting with Hortencia on the following week as she would be in Mexico.\nAlso had a meeting with Mauricio Schorsch on the 19th of June to discuss the details of the plan. According to Maria Dolores, we should focus on Mexico for the trials and wait to engage Brasil on a second wave.",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Schedule Working Session with Maria Dolores and Hortencia do discuss Pilots for Mexico",
@@ -138,7 +147,8 @@
       "progress": 100,
       "progressText": "Take advantage that Maria Dolores will be in Mexico to set-up pilots or the Proactive Attrition Prevention",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Proactive Attrition Prevention Pillots",
@@ -152,7 +162,8 @@
       "progress": 20,
       "progressText": "Discussions and agreements in place with Maria Dolores and Hortencia. Waiting on feedback from Hortencia on Pilots",
       "status": "Completed",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Schedule Session with Mauricio",
@@ -166,7 +177,8 @@
       "progress": 100,
       "progressText": "Meeting help with Mauricio to explain the program and focus in Mexico",
       "status": "Completed",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Establish ARI governance with key license stakeholders in LATAM to provide bi-weekly updates and keep alignment ",
@@ -180,7 +192,8 @@
       "progress": 70,
       "progressText": "Leandro´s team already aligned to participate in forecast calls or attrition committees to present ARI status to the leadership. Week 1 of July will be the first round.",
       "status": "In Progress",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Closely monitor the health of ongoing ARI projects ",
@@ -194,7 +207,8 @@
       "progress": 80,
       "progressText": "Weekly Cadences to review project status and bi-weekly presentation to AMERS",
       "status": "In Progress",
-      "horizon": 90
+      "horizon": 90,
+      "liveStatus": ""
     },
     {
       "action": "Sign 9 fully approved ARI cases with pending SOWs as soon as possible\n",
@@ -208,7 +222,8 @@
       "progress": 0,
       "progressText": "",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Define use cases with Bradesco",
@@ -222,7 +237,8 @@
       "progress": 100,
       "progressText": "Loans with INSS users\nReinvestment case defined for Agora",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Agree on start date for Claro CO",
@@ -236,7 +252,8 @@
       "progress": 100,
       "progressText": "Waiting on the account team to confirm the implementation of the Agent Shopper use case and the availability of Claro's team.",
       "status": "Completed",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Agree on start date for Bradesco CRM",
@@ -250,7 +267,8 @@
       "progress": 50,
       "progressText": "Customer requested a change on the use case (Gabriel) and a meeting with the team to initiate the discovery phase. Meeting schedule for week of the 22nd of June",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Agree on start date from Bradesco Ágora",
@@ -264,7 +282,8 @@
       "progress": 100,
       "progressText": "3 meetings held with the customer to engage in the construction of the use case. Project is moving accordingly ",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Define project KPIs",
@@ -278,7 +297,8 @@
       "progress": 100,
       "progressText": "Dashboard was created and published with PS use cases and total consumption: https://avp-mission-control-cc9c3b16c83b.herokuapp.com/",
       "status": "Completed",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Identify and approach customers to participate in the new proactive outcome-based delivery model pilot",
@@ -292,7 +312,8 @@
       "progress": 100,
       "progressText": "Customers:\nProdesp: OK\nDataprev: OK\nAgibank: OK\nBradesco: OK\nClaro CO: Pending Confirmation\nBanco Macro: Organizing workshop\nTelecom Argentina: Customer meeting on the 29/06\nNissan: Investigating Use Cases and implementation dependencies.\nPetrobras: Ok\nYPF: Ok\n\n",
       "status": "Completed",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Recognize employees involved in Consumption booster projects",
@@ -306,7 +327,8 @@
       "progress": 30,
       "progressText": "Customer Teams:\nBradesco, Dataprev, Prodesp, Agibank - OK",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Expand SF Internal Stakeholder Involvement",
@@ -320,7 +342,8 @@
       "progress": 80,
       "progressText": "Meetings status:\nCharly Arguindegui: OK\nChristina Meitus: OK\nMaria Dolores: OK\nGuido Ipsman: OK\nWalter Cohen: OK\nKatty Allan: OK\nBradesco Project Team: OK\nLATAM All team call: OK\nJose Luis Rey: Ok\nRodrigo Bessa: Ok\nJose Varela: Ok\nAdriano Marcandalli: OK\nKamilla Ladeira: Ok\nIsmael Rivas: Pending\nMarcelo Faustino: Ok\nJuan Manuel Mesa: Pending\nRodrigo Cuello: Ok\nSilvia Terezinha: Ok\n\n\n",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Document Claro CO objections",
@@ -334,7 +357,8 @@
       "progress": 0,
       "progressText": "Customer has requested 100% payment when business KPI's are delivered.",
       "status": "Not Started",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Change Management Plan and Execution",
@@ -348,7 +372,8 @@
       "progress": 0,
       "progressText": "",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Create automated reports to capture the Flex Credit Consumption of ProServ Agents",
@@ -362,7 +387,8 @@
       "progress": 100,
       "progressText": "Access to tolls requested and approved and automation was created for dashboard consumption",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     },
     {
       "action": "Workshop: Telecom Argentina",
@@ -376,7 +402,8 @@
       "progress": 10,
       "progressText": "",
       "status": "Completed",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Workshop: Banco Macro",
@@ -390,7 +417,8 @@
       "progress": 5,
       "progressText": "",
       "status": "In Progress",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Agentforce use case database",
@@ -404,7 +432,8 @@
       "progress": 60,
       "progressText": "Database created, slack and UI in place, missing wider-comms.",
       "status": "Completed",
-      "horizon": 60
+      "horizon": 60,
+      "liveStatus": ""
     },
     {
       "action": "Leverage AI tools for on going ARI projects to drive efficiency ",
@@ -418,7 +447,8 @@
       "progress": 70,
       "progressText": "Mainly ARI projects are already using AI tools",
       "status": "Completed",
-      "horizon": 30
+      "horizon": 30,
+      "liveStatus": ""
     }
   ],
   "ok": true

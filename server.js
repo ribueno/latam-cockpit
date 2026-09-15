@@ -90,6 +90,7 @@ app.post("/api/actions", requireAuth, async (req, res) => {
       status: incoming.status || "Not Started",
       progress: clampProgress(incoming.progress),
       helpNeeded: incoming.helpNeeded || "",
+      liveStatus: incoming.liveStatus || "",
       horizon: Number(incoming.horizon) || 90,
       lastUpdate: store.todayDate(),
     };
