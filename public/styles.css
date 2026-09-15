@@ -89,7 +89,7 @@ h2 { margin: 1.5rem 0 0.75rem; font-size: 1.05rem; }
 .exec-phase-count { font-size: 0.7rem; color: var(--slds-muted); width: 42px; }
 
 /* Section heads */
-.section-head { display: flex; justify-content: space-between; align-items: center; }
+.section-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.4rem; }
 .week-head { margin-top: 1.5rem; }
 .badge { font-size: 0.75rem; background: #e5f3ff; color: var(--slds-blue-dark);
          padding: 0.25rem 0.5rem; border-radius: 999px; }
@@ -230,7 +230,7 @@ li { margin-bottom: 0.3rem; font-size: 0.83rem; }
 
 .btn { border: 1px solid var(--slds-border); border-radius: 0.3rem; padding: 0.45rem 0.7rem; background: #fff;
        cursor: pointer; font-weight: 700; font-size: 0.8rem; }
-.btn-toggle-wins { font-size: 0.72rem; padding: 0.2rem 0.6rem; color: var(--slds-muted); }
+.btn-toggle { font-size: 0.72rem; padding: 0.2rem 0.6rem; color: var(--slds-muted); margin-left: auto; }
 .btn-brand { border-color: var(--slds-blue-dark); background: var(--slds-blue); color: #fff; }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 

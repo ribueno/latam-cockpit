@@ -33,7 +33,7 @@ const els = {
   searchFilter: $("#searchFilter"), sortFilter: $("#sortFilter"),
   urgencyFilter: $("#urgencyFilter"), horizonFilter: $("#horizonFilter"),
   horizonSwimlanesWrap: $("#horizonSwimlanesWrap"), winsPanel: $("#winsPanel"), winsCount: $("#winsCount"),
-  toggleWinsBtn: $("#toggleWinsBtn"),
+  weeklyGrid: $("#weeklyGrid"),
   actionDialog: $("#actionDialog"), addActionBtn: $("#addActionBtn"), downloadBackupBtn: $("#downloadBackupBtn"),
   logoutBtn: $("#logoutBtn"), backupStatus: $("#backupStatus"), cancelDialogBtn: $("#cancelDialogBtn"),
   newActionForm: $("#newActionForm"), kpiStrip: $("#kpiStrip"), ownerTodoBoard: $("#ownerTodoBoard"),
@@ -119,9 +119,14 @@ function bindEvents() {
   els.closePreviewBtn.addEventListener("click", () => els.previewDialog.close());
   els.previewRemindersBtn.addEventListener("click", previewReminders);
   els.sendRemindersBtn.addEventListener("click", sendReminders);
-  els.toggleWinsBtn.addEventListener("click", () => {
-    const hidden = els.winsPanel.classList.toggle("hidden");
-    els.toggleWinsBtn.textContent = hidden ? "Show" : "Hide";
+  // Generic section toggles — works for any btn with data-toggle="elementId"
+  document.querySelectorAll(".btn-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = document.getElementById(btn.dataset.toggle);
+      if (!target) return;
+      const hidden = target.classList.toggle("hidden");
+      btn.textContent = hidden ? "Show" : "Hide";
+    });
   });
 
   els.newActionForm.addEventListener("submit", async (event) => {

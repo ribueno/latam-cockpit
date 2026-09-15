@@ -48,6 +48,7 @@
         <section class="section-head horizon-head">
           <h2>30 / 60 / 90-Day Plan Progress</h2>
           <span class="hint">Phase completion across all pillars — click a lane to filter the Activity Plan</span>
+          <button class="btn btn-toggle" data-toggle="horizonSwimlanesWrap">Hide</button>
         </section>
         <div id="horizonSwimlanesWrap" class="horizon-wrap"></div>
 
@@ -56,7 +57,7 @@
           <h2>✅ Wins &amp; Completed</h2>
           <div style="display:flex;align-items:center;gap:0.5rem">
             <span id="winsCount" class="badge badge-green">0 done</span>
-            <button id="toggleWinsBtn" class="btn btn-toggle-wins">Hide</button>
+            <button class="btn btn-toggle" data-toggle="winsPanel">Hide</button>
           </div>
         </section>
         <div id="winsPanel" class="wins-panel"></div>
@@ -64,9 +65,12 @@
         <!-- This Week: owner to-dos + Slack -->
         <section class="week-head section-head">
           <h2>This Week — To-Dos Before Wednesday</h2>
-          <span id="meetingCountdown" class="badge badge-amber">next meeting …</span>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <span id="meetingCountdown" class="badge badge-amber">next meeting …</span>
+            <button class="btn btn-toggle" data-toggle="weekGrid">Hide</button>
+          </div>
         </section>
-        <div class="week-grid">
+        <div id="weekGrid" class="week-grid">
           <article class="card week-todos">
             <div class="card-head">
               <h3>Owner To-Do Board</h3>
@@ -88,14 +92,15 @@
         </div>
 
         <!-- Weekly Focus -->
-        <section>
+        <section class="section-head">
           <h2>Weekly Focus</h2>
-          <div class="weekly-grid">
-            <article class="card"><h3>Overdue Actions</h3><ul id="overdueList"></ul></article>
-            <article class="card"><h3>Blocked Actions</h3><ul id="blockedList"></ul></article>
-            <article class="card"><h3>Help Requests</h3><ul id="helpList"></ul></article>
-          </div>
+          <button class="btn btn-toggle" data-toggle="weeklyGrid">Hide</button>
         </section>
+        <div id="weeklyGrid" class="weekly-grid">
+          <article class="card"><h3>Overdue Actions</h3><ul id="overdueList"></ul></article>
+          <article class="card"><h3>Blocked Actions</h3><ul id="blockedList"></ul></article>
+          <article class="card"><h3>Help Requests</h3><ul id="helpList"></ul></article>
+        </div>
 
       </div><!-- /tab-cockpit -->
 
