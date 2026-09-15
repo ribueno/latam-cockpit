@@ -14,10 +14,14 @@ const SORT_OPTIONS = [
   "Progress (High to Low)", "Progress (Low to High)", "Owner (A-Z)", "Owner (Z-A)",
 ];
 const URGENCY_OPTIONS = ["All", "Overdue", "Blocked", "Due before meeting", "Open"];
+const HORIZON_OPTIONS = ["All", "30-day", "60-day", "90-day"];
+const HORIZONS = [30, 60, 90];
+const HORIZON_LABELS = { 30: "30-Day Phase", 60: "60-Day Phase", 90: "90-Day Phase" };
+const HORIZON_COLORS = { 30: "#0176d3", 60: "#fe9339", 90: "#2e844a" };
 
 const state = {
   actions: [],
-  filters: { pillar: "All", owner: "All", status: "All", search: "", sort: "Urgency (Most Urgent)", activityTag: "All", urgency: "All" },
+  filters: { pillar: "All", owner: "All", status: "All", search: "", sort: "Urgency (Most Urgent)", activityTag: "All", urgency: "All", horizon: "All" },
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -26,7 +30,8 @@ const els = {
   overdueList: $("#overdueList"), blockedList: $("#blockedList"), helpList: $("#helpList"),
   pillarFilter: $("#pillarFilter"), ownerFilter: $("#ownerFilter"), statusFilter: $("#statusFilter"),
   searchFilter: $("#searchFilter"), sortFilter: $("#sortFilter"), activityTagFilter: $("#activityTagFilter"),
-  urgencyFilter: $("#urgencyFilter"),
+  urgencyFilter: $("#urgencyFilter"), horizonFilter: $("#horizonFilter"),
+  horizonSwimlanesWrap: $("#horizonSwimlanesWrap"), winsPanel: $("#winsPanel"), winsCount: $("#winsCount"),
   actionDialog: $("#actionDialog"), addActionBtn: $("#addActionBtn"), downloadBackupBtn: $("#downloadBackupBtn"),
   logoutBtn: $("#logoutBtn"), backupStatus: $("#backupStatus"), cancelDialogBtn: $("#cancelDialogBtn"),
   newActionForm: $("#newActionForm"), kpiStrip: $("#kpiStrip"), ownerTodoBoard: $("#ownerTodoBoard"),
@@ -68,10 +73,10 @@ function configureFilters() {
   fillSelect(els.pillarFilter, ["All", ...PILLARS]);
   fillSelect(els.statusFilter, ["All", ...STATUSES]);
   fillSelect(els.urgencyFilter, URGENCY_OPTIONS);
+  fillSelect(els.horizonFilter, HORIZON_OPTIONS);
   fillSelect(els.sortFilter, SORT_OPTIONS);
   els.sortFilter.value = state.filters.sort;
   updateOwnerFilterOptions();
-  updateActivityTagFilterOptions();
 }
 function fillSelect(select, values) {
   select.innerHTML = values.map((v) => `<option value="${v}">${v}</option>`).join("");
@@ -82,21 +87,15 @@ function updateOwnerFilterOptions() {
   if (![...els.ownerFilter.options].some((o) => o.value === state.filters.owner)) { state.filters.owner = "All"; }
   els.ownerFilter.value = state.filters.owner;
 }
-function updateActivityTagFilterOptions() {
-  const tags = [...new Set(state.actions.map((i) => String(i.action||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  fillSelect(els.activityTagFilter, ["All", ...tags]);
-  if (![...els.activityTagFilter.options].some((o) => o.value === state.filters.activityTag)) { state.filters.activityTag = "All"; }
-  els.activityTagFilter.value = state.filters.activityTag;
-}
 
 function bindEvents() {
   els.pillarFilter.addEventListener("change", (e) => { state.filters.pillar = e.target.value; render(); });
   els.ownerFilter.addEventListener("change", (e) => { state.filters.owner = e.target.value; render(); });
   els.statusFilter.addEventListener("change", (e) => { state.filters.status = e.target.value; render(); });
   els.urgencyFilter.addEventListener("change", (e) => { state.filters.urgency = e.target.value; render(); });
+  els.horizonFilter.addEventListener("change", (e) => { state.filters.horizon = e.target.value; render(); });
   els.searchFilter.addEventListener("input", (e) => { state.filters.search = e.target.value.trim().toLowerCase(); render(); });
   els.sortFilter.addEventListener("change", (e) => { state.filters.sort = e.target.value; render(); });
-  els.activityTagFilter.addEventListener("change", (e) => { state.filters.activityTag = e.target.value; render(); });
 
   els.addActionBtn.addEventListener("click", () => els.actionDialog.showModal());
   els.downloadBackupBtn.addEventListener("click", () => { window.location.href = "/api/backups/latest"; });
@@ -112,7 +111,8 @@ function bindEvents() {
     await createAction({
       pillar: data.get("pillar"), action: data.get("action"), description: data.get("description"),
       progressText: data.get("progressText"), owner: data.get("owner"), dueDate: data.get("dueDate"),
-      status: data.get("status"), progress: clampProgress(Number(data.get("progress"))), helpNeeded: data.get("helpNeeded"),
+      status: data.get("status"), progress: clampProgress(Number(data.get("progress"))),
+      helpNeeded: data.get("helpNeeded"), horizon: Number(data.get("horizon")) || 90,
     });
     await reloadDataAndRender();
     els.newActionForm.reset();
@@ -123,11 +123,96 @@ function bindEvents() {
 /* ---------- render ---------- */
 function render() {
   renderKpis();
+  renderHorizonSwimlanes();
+  renderWinsPanel();
   renderMeetingCountdown();
   renderOwnerBoard();
   renderPillarCards();
   renderTable(getFilteredActions());
   renderWeeklyFocus();
+}
+
+/* ---------- horizon swimlanes ---------- */
+function renderHorizonSwimlanes() {
+  els.horizonSwimlanesWrap.innerHTML = HORIZONS.map((h) => {
+    const items = state.actions.filter((a) => Number(a.horizon) === h);
+    const total = items.length;
+    if (!total) return "";
+    const completed = items.filter((i) => i.status === "Completed").length;
+    const inProgress = items.filter((i) => i.status === "In Progress").length;
+    const blocked = items.filter((i) => i.status === "Blocked").length;
+    const notStarted = items.filter((i) => i.status === "Not Started").length;
+    const pct = Math.round((completed / total) * 100);
+    const color = HORIZON_COLORS[h];
+    // pill rows per pillar within this phase
+    const byPillar = PILLARS.map((p) => {
+      const pg = items.filter((a) => a.pillar === p);
+      if (!pg.length) return "";
+      const pc = pg.filter((a) => a.status === "Completed").length;
+      const ppct = Math.round((pc / pg.length) * 100);
+      return `<div class="h-pillar-row">
+        <span class="h-pillar-name" title="${escapeHtml(p)}">${escapeHtml(p.replace("Proactive ","").replace("Reactive ",""))}</span>
+        <div class="h-pillar-track"><div class="h-pillar-fill" style="width:${ppct}%;background:${color}"></div></div>
+        <span class="h-pillar-pct">${ppct}%</span>
+      </div>`;
+    }).join("");
+    return `<div class="horizon-lane" style="--h-color:${color}" data-horizon="${h}">
+      <div class="h-lane-head">
+        <span class="h-badge" style="background:${color}">Phase ${h}</span>
+        <strong class="h-lane-title">${HORIZON_LABELS[h]}</strong>
+        <span class="h-pct-big">${pct}%</span>
+      </div>
+      <div class="h-progress-track"><div class="h-progress-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="h-stats">
+        <span class="pill pill-green">${completed} done</span>
+        <span class="pill pill-amber">${inProgress} in progress</span>
+        <span class="pill">${notStarted} not started</span>
+        ${blocked ? `<span class="pill pill-red">${blocked} blocked</span>` : ""}
+        <span class="pill">${total} total</span>
+      </div>
+      <div class="h-pillar-rows">${byPillar}</div>
+    </div>`;
+  }).join("");
+
+  // click to filter
+  els.horizonSwimlanesWrap.querySelectorAll(".horizon-lane").forEach((lane) => {
+    lane.style.cursor = "pointer";
+    lane.addEventListener("click", () => {
+      const h = lane.dataset.horizon;
+      const label = `${h}-day`;
+      const current = els.horizonFilter.value;
+      if (current === label) {
+        els.horizonFilter.value = "All"; state.filters.horizon = "All";
+      } else {
+        els.horizonFilter.value = label; state.filters.horizon = label;
+      }
+      render();
+    });
+  });
+}
+
+/* ---------- wins panel ---------- */
+function renderWinsPanel() {
+  const wins = state.actions
+    .filter((a) => a.status === "Completed")
+    .sort((a, b) => String(b.lastUpdate || "").localeCompare(String(a.lastUpdate || "")));
+  const count = wins.length;
+  els.winsCount.textContent = `${count} done`;
+  if (!count) {
+    els.winsPanel.innerHTML = `<p class="hint" style="padding:.5rem 0">No completed activities yet.</p>`;
+    return;
+  }
+  els.winsPanel.innerHTML = `<div class="wins-scroll">${wins.map((w) => {
+    const color = HORIZON_COLORS[Number(w.horizon)] || "#999";
+    return `<div class="win-card">
+      <span class="win-phase" style="background:${color}">P${w.horizon || "?"}</span>
+      <div class="win-body">
+        <div class="win-title">${escapeHtml(w.action)}</div>
+        <div class="win-meta">${escapeHtml(w.pillar)} · ${escapeHtml(w.owner)}${w.lastUpdate ? " · " + fmtDate(w.lastUpdate) : ""}</div>
+      </div>
+      <div class="win-check">✓</div>
+    </div>`;
+  }).join("")}</div>`;
 }
 
 function renderKpis() {
@@ -222,6 +307,8 @@ function renderTable(items) {
   els.tableBody.innerHTML = items.map((item) => {
     const u = urgency(item);
     const rowCls = u === "overdue" ? "row-overdue" : u === "blocked" ? "row-blocked" : "";
+    const h = Number(item.horizon) || 90;
+    const hColor = HORIZON_COLORS[h] || "#999";
     return `<tr data-id="${item.id}" class="${rowCls}">
       <td class="id-cell">${escapeHtml(item.id)}${renderActivityTagBadge(item.action)}</td>
       <td>${renderSelect("pillar", item.pillar, PILLARS)}</td>
@@ -233,6 +320,7 @@ function renderTable(items) {
       <td>${renderDateInput("dueDate", item.dueDate)}</td>
       <td>${renderSelect("status", item.status, STATUSES)}</td>
       <td>${renderNumberInput("progress", item.progress)}</td>
+      <td><select data-field="horizon" style="border-left:3px solid ${hColor}">${HORIZONS.map((hv) => `<option value="${hv}" ${hv===h?"selected":""}>${hv}d</option>`).join("")}</select></td>
       <td><button class="btn remove-row">Delete</button></td>
     </tr>`;
   }).join("");
@@ -256,6 +344,10 @@ function getFilteredActions() {
     if (f.owner !== "All" && item.owner !== f.owner) return false;
     if (f.status !== "All" && item.status !== f.status) return false;
     if (f.activityTag !== "All" && normalize(item.action) !== normalize(f.activityTag)) return false;
+    if (f.horizon !== "All") {
+      const hNum = parseInt(f.horizon, 10); // "30-day" → 30
+      if (Number(item.horizon) !== hNum) return false;
+    }
     if (f.urgency !== "All") {
       const u = urgency(item);
       if (f.urgency === "Overdue" && u !== "overdue") return false;
@@ -314,7 +406,6 @@ async function reloadDataAndRender() {
   state.actions = await loadData();
   await refreshBackupStatus();
   updateOwnerFilterOptions();
-  updateActivityTagFilterOptions();
   render();
 }
 async function createAction(action) {

@@ -11,7 +11,8 @@
       "pillar": "Build Foundation",
       "progress": 75,
       "progressText": "TV Azteca - Release 2 Started July\nCDF - In proposal",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 30
     },
     {
       "action": "Build our offerings with 25% of price reduction",
@@ -24,7 +25,8 @@
       "pillar": "Build Foundation",
       "progress": 0,
       "progressText": "",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 30
     },
     {
       "action": "Internal process and financial mechanics for the new investment model",
@@ -37,7 +39,8 @@
       "pillar": "Build Foundation",
       "progress": 0,
       "progressText": "No budget for extra SWEs. For Bradesco, Claro CO, Dataprev, Prodesp and Agibank we are good.\n",
-      "status": "Not Started"
+      "status": "Not Started",
+      "horizon": 30
     },
     {
       "action": "Review the possibility of using Quantum Leap on Vibra's Proposal",
@@ -50,7 +53,8 @@
       "pillar": "Build Foundation",
       "progress": 80,
       "progressText": "Team has tested the \"Scopezilla\" app to understand how to deliver a proposal using the Quantum Leap.\nScope completed and presented to customer last Friday 19th of June.",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 30
     },
     {
       "action": "Scale rollout massive of the ADP platform within the organization",
@@ -63,7 +67,8 @@
       "pillar": "Build Foundation",
       "progress": 10,
       "progressText": "Projects currently rolling out:\n\nTV Azteca\nTECO B2B\nClaro Colombia\nProdesp",
-      "status": "Not Started"
+      "status": "Not Started",
+      "horizon": 90
     },
     {
       "action": "ADP Governance Plan",
@@ -76,7 +81,8 @@
       "pillar": "Build Foundation",
       "progress": 10,
       "progressText": "",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Resolve the issue with subco vs AI Tools",
@@ -89,7 +95,8 @@
       "pillar": "Build Foundation",
       "progress": 0,
       "progressText": "",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Track team enablement for ADP ",
@@ -102,7 +109,8 @@
       "pillar": "Build Foundation",
       "progress": 0,
       "progressText": "",
-      "status": "Not Started"
+      "status": "Not Started",
+      "horizon": 60
     },
     {
       "action": "Define Partner Engagement",
@@ -115,7 +123,8 @@
       "pillar": "Proactive Attrition Prevention",
       "progress": 100,
       "progressText": "Meeting with Maria Dolores held on the 17th of June where she requested that we move forward with a Mexico trial. She requested a second meeting with Hortencia on the following week as she would be in Mexico.\nAlso had a meeting with Mauricio Schorsch on the 19th of June to discuss the details of the plan. According to Maria Dolores, we should focus on Mexico for the trials and wait to engage Brasil on a second wave.",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 30
     },
     {
       "action": "Schedule Working Session with Maria Dolores and Hortencia do discuss Pilots for Mexico",
@@ -128,7 +137,8 @@
       "pillar": "Proactive Attrition Prevention",
       "progress": 100,
       "progressText": "Take advantage that Maria Dolores will be in Mexico to set-up pilots or the Proactive Attrition Prevention",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 30
     },
     {
       "action": "Proactive Attrition Prevention Pillots",
@@ -137,11 +147,12 @@
       "helpNeeded": "",
       "id": "P2-03",
       "lastUpdate": "2026-07-01",
-      "owner": "Cleri inhauser",
+      "owner": "Cleri Inhauser",
       "pillar": "Proactive Attrition Prevention",
       "progress": 20,
       "progressText": "Discussions and agreements in place with Maria Dolores and Hortencia. Waiting on feedback from Hortencia on Pilots",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Schedule Session with Mauricio",
@@ -154,7 +165,8 @@
       "pillar": "Proactive Attrition Prevention",
       "progress": 100,
       "progressText": "Meeting help with Mauricio to explain the program and focus in Mexico",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 60
     },
     {
       "action": "Establish ARI governance with key license stakeholders in LATAM to provide bi-weekly updates and keep alignment ",
@@ -166,8 +178,9 @@
       "owner": "Leandro Ventura",
       "pillar": "Reactive Attrition Recovery",
       "progress": 70,
-      "progressText": "Leandro´s team already aligned to participate in forecast calls or attrition committees to present ARI status to the leadership. Week 1 of July will be the first round.",
-      "status": "In Progress"
+      "progressText": "Leandro\u00b4s team already aligned to participate in forecast calls or attrition committees to present ARI status to the leadership. Week 1 of July will be the first round.",
+      "status": "In Progress",
+      "horizon": 30
     },
     {
       "action": "Closely monitor the health of ongoing ARI projects ",
@@ -180,7 +193,8 @@
       "pillar": "Reactive Attrition Recovery",
       "progress": 80,
       "progressText": "Weekly Cadences to review project status and bi-weekly presentation to AMERS",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 90
     },
     {
       "action": "Sign 9 fully approved ARI cases with pending SOWs as soon as possible\n",
@@ -193,11 +207,12 @@
       "pillar": "Reactive Attrition Recovery",
       "progress": 0,
       "progressText": "",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Define use cases with Bradesco",
-      "description": "Define use cases for CRM and Bradesco Ágora and agree with the Bank's sponsors.",
+      "description": "Define use cases for CRM and Bradesco \u00c1gora and agree with the Bank's sponsors.",
       "dueDate": "2026-06-12",
       "helpNeeded": "",
       "id": "P4-02",
@@ -206,7 +221,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 100,
       "progressText": "Loans with INSS users\nReinvestment case defined for Agora",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 30
     },
     {
       "action": "Agree on start date for Claro CO",
@@ -219,7 +235,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 100,
       "progressText": "Waiting on the account team to confirm the implementation of the Agent Shopper use case and the availability of Claro's team.",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 60
     },
     {
       "action": "Agree on start date for Bradesco CRM",
@@ -232,10 +249,11 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 50,
       "progressText": "Customer requested a change on the use case (Gabriel) and a meeting with the team to initiate the discovery phase. Meeting schedule for week of the 22nd of June",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
-      "action": "Agree on start date from Bradesco Ágora",
+      "action": "Agree on start date from Bradesco \u00c1gora",
       "description": "Waiting customer's confirmation on team's availability to start the engagement. Feedbacks from stakeholders (Livia) that the team is meeting today to define the availability of the Bridge team to define the start date.",
       "dueDate": "2026-06-15",
       "helpNeeded": "Customer team availability to move at the expected pace is an issue. Escalated to Livia , Alvaro and Luiz",
@@ -245,7 +263,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 100,
       "progressText": "3 meetings held with the customer to engage in the construction of the use case. Project is moving accordingly ",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 30
     },
     {
       "action": "Define project KPIs",
@@ -258,7 +277,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 100,
       "progressText": "Dashboard was created and published with PS use cases and total consumption: https://avp-mission-control-cc9c3b16c83b.herokuapp.com/",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 60
     },
     {
       "action": "Identify and approach customers to participate in the new proactive outcome-based delivery model pilot",
@@ -271,7 +291,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 100,
       "progressText": "Customers:\nProdesp: OK\nDataprev: OK\nAgibank: OK\nBradesco: OK\nClaro CO: Pending Confirmation\nBanco Macro: Organizing workshop\nTelecom Argentina: Customer meeting on the 29/06\nNissan: Investigating Use Cases and implementation dependencies.\nPetrobras: Ok\nYPF: Ok\n\n",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Recognize employees involved in Consumption booster projects",
@@ -284,11 +305,12 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 30,
       "progressText": "Customer Teams:\nBradesco, Dataprev, Prodesp, Agibank - OK",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Expand SF Internal Stakeholder Involvement",
-      "description": "Include Phil, Guido, Silvia, Loli, and others — for broader buy-in\n",
+      "description": "Include Phil, Guido, Silvia, Loli, and others \u2014 for broader buy-in\n",
       "dueDate": "2026-07-10",
       "helpNeeded": "AP's to help schedule the sessions with each local leader.",
       "id": "P4-09",
@@ -297,7 +319,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 80,
       "progressText": "Meetings status:\nCharly Arguindegui: OK\nChristina Meitus: OK\nMaria Dolores: OK\nGuido Ipsman: OK\nWalter Cohen: OK\nKatty Allan: OK\nBradesco Project Team: OK\nLATAM All team call: OK\nJose Luis Rey: Ok\nRodrigo Bessa: Ok\nJose Varela: Ok\nAdriano Marcandalli: OK\nKamilla Ladeira: Ok\nIsmael Rivas: Pending\nMarcelo Faustino: Ok\nJuan Manuel Mesa: Pending\nRodrigo Cuello: Ok\nSilvia Terezinha: Ok\n\n\n",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Document Claro CO objections",
@@ -310,7 +333,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 0,
       "progressText": "Customer has requested 100% payment when business KPI's are delivered.",
-      "status": "Not Started"
+      "status": "Not Started",
+      "horizon": 60
     },
     {
       "action": "Change Management Plan and Execution",
@@ -323,7 +347,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 0,
       "progressText": "",
-      "status": "Not Started"
+      "status": "Not Started",
+      "horizon": 60
     },
     {
       "action": "Create automated reports to capture the Flex Credit Consumption of ProServ Agents",
@@ -336,7 +361,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 100,
       "progressText": "Access to tolls requested and approved and automation was created for dashboard consumption",
-      "status": "Completed"
+      "status": "Completed",
+      "horizon": 30
     },
     {
       "action": "Workshop: Telecom Argentina",
@@ -349,7 +375,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 10,
       "progressText": "",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Workshop: Banco Macro",
@@ -362,7 +389,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 5,
       "progressText": "",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Agentforce use case database",
@@ -375,7 +403,8 @@
       "pillar": "Proactive Consumption Booster",
       "progress": 60,
       "progressText": "Database created, slack and UI in place, missing wider-comms.",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 60
     },
     {
       "action": "Leverage AI tools for on going ARI projects to drive efficiency ",
@@ -388,7 +417,8 @@
       "pillar": "Reactive Attrition Recovery",
       "progress": 70,
       "progressText": "Mainly ARI projects are already using AI tools",
-      "status": "In Progress"
+      "status": "In Progress",
+      "horizon": 30
     }
   ],
   "ok": true

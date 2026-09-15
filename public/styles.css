@@ -71,6 +71,43 @@ h2 { margin: 1.5rem 0 0.75rem; font-size: 1.05rem; }
 .u-tag.blocked { color: #8a4500; }
 .u-tag.due-soon { color: var(--slds-blue-dark); }
 
+/* Horizon swimlanes */
+.horizon-head { margin-top: 1.5rem; }
+.horizon-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 0.5rem; }
+@media (max-width: 860px) { .horizon-wrap { grid-template-columns: 1fr; } }
+.horizon-lane { background: var(--slds-card); border: 1px solid var(--slds-border);
+                border-top: 4px solid var(--h-color, #0176d3); border-radius: 0.5rem; padding: 0.75rem 0.85rem; }
+.horizon-lane:hover { box-shadow: 0 2px 12px rgb(0 0 0 / 10%); }
+.h-lane-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+.h-badge { color:#fff; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.5rem;
+           border-radius: 999px; letter-spacing: .04em; }
+.h-lane-title { flex: 1; font-weight: 700; font-size: 0.9rem; }
+.h-pct-big { font-size: 1.5rem; font-weight: 800; color: var(--h-color, #0176d3); line-height: 1; }
+.h-progress-track { background: #eef2f6; border-radius: 999px; height: 7px; overflow: hidden; margin-bottom: 0.5rem; }
+.h-progress-fill { height: 100%; border-radius: 999px; transition: width .4s; }
+.h-stats { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+.h-pillar-rows { border-top: 1px dashed var(--slds-border); padding-top: 0.4rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.h-pillar-row { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; }
+.h-pillar-name { width: 130px; min-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+                 color: var(--slds-muted); }
+.h-pillar-track { flex: 1; background: #eef2f6; border-radius: 999px; height: 5px; overflow: hidden; }
+.h-pillar-fill { height: 100%; border-radius: 999px; transition: width .4s; }
+.h-pillar-pct { width: 30px; text-align: right; color: var(--slds-muted); }
+
+/* Wins panel */
+.wins-head { margin-top: 1.5rem; }
+.badge-green { background: #e8f5e9; color: var(--success); }
+.wins-panel { margin-top: 0.5rem; }
+.wins-scroll { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.win-card { display: flex; align-items: flex-start; gap: 0.5rem; background: #fff; border: 1px solid #d4edda;
+            border-radius: 0.45rem; padding: 0.45rem 0.65rem; min-width: 260px; flex: 1; max-width: 400px; }
+.win-phase { font-size: 0.65rem; font-weight: 800; color: #fff; padding: 0.15rem 0.4rem;
+             border-radius: 999px; white-space: nowrap; align-self: flex-start; margin-top: 0.1rem; }
+.win-body { flex: 1; }
+.win-title { font-size: 0.8rem; font-weight: 700; }
+.win-meta { font-size: 0.68rem; color: var(--slds-muted); }
+.win-check { color: var(--success); font-size: 1.1rem; font-weight: 800; align-self: center; }
+
 /* Slack panel */
 .slack-panel { display: flex; flex-direction: column; }
 .slack-status { font-size: 0.8rem; margin: 0.2rem 0; }
