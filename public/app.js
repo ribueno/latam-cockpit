@@ -3,7 +3,6 @@ const PILLARS = [
   "Proactive Attrition Prevention",
   "Reactive Attrition Recovery",
   "Proactive Consumption Booster",
-  "Pre-Sales",
 ];
 const STATUSES = ["Not Started", "In Progress", "Blocked", "Completed"];
 const OPEN_STATUSES = ["Not Started", "In Progress", "Blocked"];
