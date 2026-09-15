@@ -16,7 +16,30 @@ const URGENCY_OPTIONS = ["All", "Overdue", "Blocked", "Due before meeting", "Ope
 const HORIZON_OPTIONS = ["All", "30-day", "60-day", "90-day"];
 const HORIZONS = [30, 60, 90];
 const HORIZON_LABELS = { 30: "30-Day Phase", 60: "60-Day Phase", 90: "90-Day Phase" };
-const HORIZON_COLORS = { 30: "#0176d3", 60: "#fe9339", 90: "#2e844a" };
+const HORIZON_COLORS_LIGHT = { 30: "#0176d3", 60: "#fe9339", 90: "#2e844a" };
+const HORIZON_COLORS_DARK  = { 30: "#58a6ff", 60: "#e3b341", 90: "#3fb950" };
+const HORIZON_COLORS = { ...HORIZON_COLORS_DARK }; // default dark
+
+// ── Theme toggle ──────────────────────────────────────────────────────────────
+function applyTheme(dark, rerender = false) {
+  document.body.dataset.theme = dark ? "dark" : "light";
+  const btn = document.getElementById("themeToggleBtn");
+  if (btn) btn.textContent = dark ? "☀️ Light" : "🌙 Dark";
+  Object.assign(HORIZON_COLORS, dark ? HORIZON_COLORS_DARK : HORIZON_COLORS_LIGHT);
+  localStorage.setItem("theme", dark ? "dark" : "light");
+  if (rerender) render();
+}
+
+function initTheme() {
+  // Honour saved preference; default to dark if nothing stored
+  const saved = localStorage.getItem("theme");
+  const dark = saved ? saved === "dark" : true;
+  applyTheme(dark, false);
+  const btn = document.getElementById("themeToggleBtn");
+  if (btn) btn.addEventListener("click", () => {
+    applyTheme(document.body.dataset.theme !== "dark", true);
+  });
+}
 
 const state = {
   actions: [],
@@ -43,6 +66,7 @@ const els = {
 
 bootstrap();
 async function bootstrap() {
+  initTheme();                    // sets theme before first render
   state.actions = await loadData();
   await refreshBackupStatus();
   buildDialogPillarOptions();

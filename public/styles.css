@@ -267,3 +267,186 @@ dialog::backdrop { background: rgb(0 0 0 / 30%); }
 .preview-msg { background:#f7fbff; border:1px solid var(--slds-border); border-radius:.4rem; padding:.6rem;
                white-space: pre-wrap; font-size:.78rem; margin-bottom:.6rem; }
 .preview-msg h5 { margin:0 0 .3rem; font-size:.8rem; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DARK MODE  —  [data-theme="dark"] overrides
+   ═══════════════════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --slds-blue:      #58a6ff;
+  --slds-blue-dark: #79c0ff;
+  --slds-bg:        #0d1117;
+  --slds-card:      #161b22;
+  --slds-border:    #30363d;
+  --slds-text:      #e6edf3;
+  --slds-muted:     #8b949e;
+  --success:        #3fb950;
+  --warning:        #e3b341;
+  --danger:         #f85149;
+}
+
+/* Body & shell */
+[data-theme="dark"] body {
+  background: #0d1117;
+  color: var(--slds-text);
+}
+
+/* Topbar / Tab bar */
+[data-theme="dark"] .topbar,
+[data-theme="dark"] .tab-bar {
+  box-shadow: 0 2px 8px rgba(0,0,0,.45);
+}
+[data-theme="dark"] .tab-btn:hover  { background: #1c2128; color: var(--slds-blue); }
+[data-theme="dark"] .tab-btn.active { background: #1c2d42; color: var(--slds-blue); }
+
+/* Executive summary — left panel */
+[data-theme="dark"] .exec-left {
+  background: linear-gradient(135deg, #0d2137 0%, #06111f 100%);
+  border-right: 1px solid #21262d;
+}
+[data-theme="dark"] .exec-risk.bad  { background: #2d0c0e; color: #f85149; }
+[data-theme="dark"] .exec-risk.warn { background: #2d1d0a; color: #e3b341; }
+[data-theme="dark"] .exec-risk.info { background: #0d2137; color: #79c0ff; }
+[data-theme="dark"] .exec-risk.ok   { background: #0a2317; color: #3fb950; }
+
+/* Phase tracks */
+[data-theme="dark"] .exec-phase-track,
+[data-theme="dark"] .h-progress-track,
+[data-theme="dark"] .h-pillar-track,
+[data-theme="dark"] .progress-track,
+[data-theme="dark"] .wins-group-bar-wrap {
+  background: #21262d;
+}
+
+/* Progress fill glow — makes bars feel alive in dark mode */
+[data-theme="dark"] .exec-overall-fill {
+  box-shadow: 0 0 8px rgba(255,255,255,.35);
+}
+[data-theme="dark"] .exec-phase-fill,
+[data-theme="dark"] .h-progress-fill,
+[data-theme="dark"] .h-pillar-fill,
+[data-theme="dark"] .wins-group-bar,
+[data-theme="dark"] .progress-fill {
+  filter: brightness(1.15);
+  box-shadow: 0 0 6px rgba(88,166,255,.35);
+}
+
+/* Badges */
+[data-theme="dark"] .badge        { background: #1c2d42; color: #79c0ff; }
+[data-theme="dark"] .badge-amber  { background: #2d1d0a; color: #e3b341; }
+[data-theme="dark"] .badge-green  { background: #0a2317; color: #3fb950; }
+
+/* Pills */
+[data-theme="dark"] .pill-green { background: #0a2317; color: #3fb950; }
+[data-theme="dark"] .pill-amber { background: #2d1d0a; color: #e3b341; }
+[data-theme="dark"] .pill-red   { background: #2d0c0e; color: #f85149; }
+
+/* Owner board */
+[data-theme="dark"] .owner-col {
+  background: #0d1117;
+  border-color: #21262d;
+}
+[data-theme="dark"] .owner-col .count { background: #1c2d42; color: #79c0ff; }
+[data-theme="dark"] .todo { background: #1c2128; }
+
+/* Urgency tag colours */
+[data-theme="dark"] .u-tag.blocked { color: #e3b341; }
+
+/* Horizon lanes */
+[data-theme="dark"] .horizon-lane:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,.55);
+  background: #1c2128;
+}
+
+/* Wins panel */
+[data-theme="dark"] .wins-group-head { background: #1c2128; }
+[data-theme="dark"] .win-row { border-bottom-color: #21262d; }
+
+/* Slack / mini-list */
+[data-theme="dark"] .mini-list li { border-bottom-color: #21262d; }
+
+/* Inputs, selects, textareas */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: #0d1117;
+  color: #e6edf3;
+  border-color: #30363d;
+}
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  outline: 2px solid rgba(88,166,255,.30);
+  border-color: #58a6ff;
+}
+
+/* Live Status */
+[data-theme="dark"] .live-status-input {
+  background: #1a1606 !important;
+  border-color: #6b5a1b !important;
+}
+[data-theme="dark"] .live-status-input:focus {
+  outline-color: rgba(227,179,65,.25) !important;
+  border-color: #e3b341 !important;
+}
+[data-theme="dark"] .t-live-status {
+  background: #1a1606;
+  border-left-color: #e3b341;
+  color: #c9a227;
+}
+
+/* Table */
+[data-theme="dark"] .table-wrap { background: #161b22; }
+[data-theme="dark"] th, [data-theme="dark"] td { border-bottom-color: #21262d; }
+[data-theme="dark"] tr:hover td { background: #1c2128; }
+[data-theme="dark"] td input,
+[data-theme="dark"] td select,
+[data-theme="dark"] td textarea {
+  background: #0d1117;
+  color: #e6edf3;
+  border-color: #30363d;
+}
+
+/* Buttons */
+[data-theme="dark"] .btn {
+  background: #21262d;
+  border-color: #30363d;
+  color: #e6edf3;
+}
+[data-theme="dark"] .btn:hover { background: #2d333b; }
+[data-theme="dark"] .btn-brand {
+  background: #1f6feb;
+  border-color: #388bfd;
+  color: #ffffff;
+}
+[data-theme="dark"] .btn-brand:hover { background: #388bfd; }
+[data-theme="dark"] .btn-toggle { color: #8b949e; }
+
+/* Theme toggle button — always visible */
+#themeToggleBtn {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 0.3rem;
+  border: 1px solid var(--slds-border);
+  background: transparent;
+  cursor: pointer;
+  color: var(--slds-muted);
+  font-weight: 700;
+  letter-spacing: .02em;
+  transition: background .15s, color .15s;
+}
+#themeToggleBtn:hover { background: var(--slds-card); color: var(--slds-blue); }
+
+/* Dialog */
+[data-theme="dark"] dialog {
+  background: #161b22;
+  color: #e6edf3;
+  border-color: #30363d;
+}
+[data-theme="dark"] dialog::backdrop { background: rgba(0,0,0,.60); }
+
+/* Preview dialog */
+[data-theme="dark"] .preview-msg {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #e6edf3;
+}
