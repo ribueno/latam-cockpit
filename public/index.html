@@ -63,22 +63,13 @@
         </section>
         <div id="winsPanel" class="wins-panel"></div>
 
-        <!-- This Week: owner to-dos + Slack -->
+        <!-- This Week: owner to-dos -->
         <section class="week-head section-head">
           <h2>This Week — To-Dos Before Wednesday</h2>
-          <div style="display:flex;align-items:center;gap:0.5rem">
-            <span id="meetingCountdown" class="badge badge-amber">next meeting …</span>
-            <button class="btn btn-toggle" data-toggle="weekGrid">Hide</button>
-          </div>
+          <button class="btn btn-toggle" data-toggle="weekGrid">Hide</button>
         </section>
         <div id="weekGrid" class="week-grid">
-          <article class="card week-todos">
-            <div class="card-head">
-              <h3>Owner To-Do Board</h3>
-              <span class="hint">Open items due on/before the next Wednesday governance meeting — this is exactly what each owner receives via Slack Monday morning.</span>
-            </div>
-            <div id="ownerTodoBoard" class="owner-board"></div>
-          </article>
+          <div id="ownerTodoBoard" class="owner-board"></div>
         </div>
 
         <!-- Weekly Focus -->
@@ -95,6 +86,7 @@
         <!-- Slack Monday Reminder (bottom) -->
         <section class="section-head" style="margin-top:1.5rem">
           <h2>Slack Monday Reminder</h2>
+          <span id="meetingCountdown" class="badge badge-amber">next meeting …</span>
         </section>
         <aside class="card slack-panel" style="max-width:480px">
           <p id="slackStatus" class="slack-status">Checking configuration…</p>
