@@ -193,24 +193,52 @@ function renderHorizonSwimlanes() {
 
 /* ---------- wins panel ---------- */
 function renderWinsPanel() {
-  const wins = state.actions
-    .filter((a) => a.status === "Completed")
-    .sort((a, b) => String(b.lastUpdate || "").localeCompare(String(a.lastUpdate || "")));
-  const count = wins.length;
+  const allWins = state.actions.filter((a) => a.status === "Completed");
+  const count = allWins.length;
   els.winsCount.textContent = `${count} done`;
   if (!count) {
     els.winsPanel.innerHTML = `<p class="hint" style="padding:.5rem 0">No completed activities yet.</p>`;
     return;
   }
-  els.winsPanel.innerHTML = `<div class="wins-scroll">${wins.map((w) => {
-    const color = HORIZON_COLORS[Number(w.horizon)] || "#999";
-    return `<div class="win-card">
-      <span class="win-phase" style="background:${color}">P${w.horizon || "?"}</span>
-      <div class="win-body">
-        <div class="win-title">${escapeHtml(w.action)}</div>
-        <div class="win-meta">${escapeHtml(w.pillar)} · ${escapeHtml(w.owner)}${w.lastUpdate ? " · " + fmtDate(w.lastUpdate) : ""}</div>
+
+  // Group by phase, then sort within each group by pillar then owner
+  const groups = HORIZONS.map((h) => {
+    const items = allWins
+      .filter((w) => Number(w.horizon) === h)
+      .sort((a, b) => (a.pillar || "").localeCompare(b.pillar || "") || (a.owner || "").localeCompare(b.owner || ""));
+    const total = state.actions.filter((a) => Number(a.horizon) === h).length;
+    return { h, items, total };
+  }).filter((g) => g.items.length);
+
+  const color = (h) => HORIZON_COLORS[h] || "#999";
+
+  els.winsPanel.innerHTML = `<div class="wins-groups">${groups.map(({ h, items, total }) => {
+    const phasePct = total ? Math.round((items.length / total) * 100) : 0;
+    const rows = items.map((w) => {
+      // Group wins by pillar visually
+      return `<div class="win-row">
+        <div class="win-row-left">
+          <div class="win-row-title">${escapeHtml(w.action)}</div>
+          <div class="win-row-meta">
+            <span class="win-pillar-tag" style="border-color:${color(h)};color:${color(h)}">${escapeHtml(w.pillar.replace("Proactive ","").replace("Reactive ",""))}</span>
+            ${escapeHtml(w.owner)}${w.lastUpdate ? " · " + fmtDate(w.lastUpdate) : ""}
+          </div>
+        </div>
+        <span class="win-check-sm">✓</span>
+      </div>`;
+    }).join("");
+
+    return `<div class="wins-group">
+      <div class="wins-group-head" style="border-left-color:${color(h)}">
+        <span class="h-badge" style="background:${color(h)}">Phase ${h}</span>
+        <span class="wins-group-title">${HORIZON_LABELS[h]}</span>
+        <span class="wins-group-stat">${items.length} of ${total} complete</span>
+        <div class="wins-group-bar-wrap">
+          <div class="wins-group-bar" style="width:${phasePct}%;background:${color(h)}"></div>
+        </div>
+        <span class="wins-group-pct">${phasePct}%</span>
       </div>
-      <div class="win-check">✓</div>
+      <div class="wins-group-rows">${rows}</div>
     </div>`;
   }).join("")}</div>`;
 }
@@ -224,19 +252,55 @@ function renderKpis() {
   const overdue = a.filter(isOverdue).length;
   const help = a.filter((i) => (i.helpNeeded || "").trim()).length;
   const dueSoon = a.filter((i) => urgency(i) === "due-soon").length;
-  const avg = total ? Math.round(a.reduce((s, i) => s + Number(i.progress || 0), 0) / total) : 0;
   const pct = total ? Math.round((completed / total) * 100) : 0;
-  const tiles = [
-    { label: "Activities", value: total },
-    { label: "Completed", value: `${pct}%`, cls: "ok" },
-    { label: "Avg Progress", value: `${avg}%` },
-    { label: "Due before mtg", value: dueSoon, cls: dueSoon ? "warn" : "" },
-    { label: "Overdue", value: overdue, cls: overdue ? "bad" : "ok" },
-    { label: "Blocked", value: blocked, cls: blocked ? "warn" : "" },
-    { label: "Help Needed", value: help, cls: help ? "warn" : "" },
-  ];
-  els.kpiStrip.innerHTML = tiles.map((t) =>
-    `<div class="kpi ${t.cls||""}"><div class="kpi-value">${t.value}</div><div class="kpi-label">${t.label}</div></div>`).join("");
+
+  // Health label
+  const health = overdue >= 3 || blocked >= 3 ? { label: "Needs Attention", cls: "health-bad" }
+    : overdue >= 1 || blocked >= 1 ? { label: "On Track — some risks", cls: "health-warn" }
+    : pct >= 80 ? { label: "On Track ✓", cls: "health-ok" }
+    : { label: "In Progress", cls: "health-ok" };
+
+  // Per-phase summary
+  const phaseBars = HORIZONS.map((h) => {
+    const g = a.filter((i) => Number(i.horizon) === h);
+    const gc = g.filter((i) => i.status === "Completed").length;
+    const gpct = g.length ? Math.round((gc / g.length) * 100) : 0;
+    const color = HORIZON_COLORS[h];
+    return `<div class="exec-phase-row">
+      <span class="exec-phase-label" style="color:${color}">Phase ${h}</span>
+      <div class="exec-phase-track">
+        <div class="exec-phase-fill" style="width:${gpct}%;background:${color}"></div>
+      </div>
+      <span class="exec-phase-pct">${gpct}%</span>
+      <span class="exec-phase-count">${gc}/${g.length}</span>
+    </div>`;
+  }).join("");
+
+  // Risk callouts
+  const risks = [
+    overdue ? `<span class="exec-risk bad">⚠ ${overdue} overdue</span>` : "",
+    blocked ? `<span class="exec-risk warn">⊘ ${blocked} blocked</span>` : "",
+    help ? `<span class="exec-risk warn">🙋 ${help} need help</span>` : "",
+    dueSoon ? `<span class="exec-risk info">⏳ ${dueSoon} due before meeting</span>` : "",
+  ].filter(Boolean).join("");
+
+  els.kpiStrip.innerHTML = `
+    <div class="exec-summary-card">
+      <div class="exec-left">
+        <div class="exec-health-label ${health.cls}">${health.label}</div>
+        <div class="exec-big-pct">${pct}<span class="exec-pct-sym">%</span></div>
+        <div class="exec-big-label">Overall Plan Complete</div>
+        <div class="exec-overall-track">
+          <div class="exec-overall-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="exec-counts">${completed} of ${total} activities complete · ${inProgress} in progress</div>
+        <div class="exec-risks">${risks || '<span class="exec-risk ok">No blockers 🎉</span>'}</div>
+      </div>
+      <div class="exec-right">
+        <div class="exec-phases-title">Progress by Phase</div>
+        ${phaseBars}
+      </div>
+    </div>`;
 }
 
 function renderMeetingCountdown() {
