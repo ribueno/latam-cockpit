@@ -22,7 +22,7 @@ const HORIZON_COLORS = { 30: "#0176d3", 60: "#fe9339", 90: "#2e844a" };
 const state = {
   actions: [],
   activeTab: "cockpit",
-  filters: { pillar: "All", owner: "All", status: "All", search: "", sort: "Urgency (Most Urgent)", activityTag: "All", urgency: "All", horizon: "All" },
+  filters: { pillar: "All", owner: "All", status: "All", search: "", sort: "Urgency (Most Urgent)", urgency: "All", horizon: "All" },
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -30,7 +30,7 @@ const els = {
   tableBody: $("#actionsTableBody"), pillarCards: $("#pillarCards"), rowCount: $("#rowCount"),
   overdueList: $("#overdueList"), blockedList: $("#blockedList"), helpList: $("#helpList"),
   pillarFilter: $("#pillarFilter"), ownerFilter: $("#ownerFilter"), statusFilter: $("#statusFilter"),
-  searchFilter: $("#searchFilter"), sortFilter: $("#sortFilter"), activityTagFilter: $("#activityTagFilter"),
+  searchFilter: $("#searchFilter"), sortFilter: $("#sortFilter"),
   urgencyFilter: $("#urgencyFilter"), horizonFilter: $("#horizonFilter"),
   horizonSwimlanesWrap: $("#horizonSwimlanesWrap"), winsPanel: $("#winsPanel"), winsCount: $("#winsCount"),
   actionDialog: $("#actionDialog"), addActionBtn: $("#addActionBtn"), downloadBackupBtn: $("#downloadBackupBtn"),
@@ -423,7 +423,6 @@ function getFilteredActions() {
     if (f.pillar !== "All" && item.pillar !== f.pillar) return false;
     if (f.owner !== "All" && item.owner !== f.owner) return false;
     if (f.status !== "All" && item.status !== f.status) return false;
-    if (f.activityTag !== "All" && normalize(item.action) !== normalize(f.activityTag)) return false;
     if (f.horizon !== "All") {
       const hNum = parseInt(f.horizon, 10); // "30-day" → 30
       if (Number(item.horizon) !== hNum) return false;
