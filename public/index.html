@@ -182,6 +182,77 @@
       <div id="previewBody" class="preview-body"></div>
     </dialog>
 
+    <!-- Slide-in Detail Panel -->
+    <div id="dpBackdrop" class="dp-backdrop"></div>
+    <aside id="detailPanel" class="detail-panel" aria-label="Activity detail">
+      <div class="dp-header">
+        <span id="dpId" class="dp-id"></span>
+        <span id="dpPillarBadge" class="dp-pillar-badge"></span>
+        <span id="dpUrgencyTag" class="dp-urgency-tag"></span>
+        <button id="dpClose" class="dp-close" title="Close (Esc)">✕</button>
+      </div>
+      <div class="dp-body">
+        <div class="dp-field">
+          <label class="dp-label">Activity</label>
+          <textarea id="dpAction" rows="3"></textarea>
+        </div>
+        <div class="dp-row2">
+          <div class="dp-field">
+            <label class="dp-label">Status</label>
+            <select id="dpStatus"></select>
+          </div>
+          <div class="dp-field">
+            <label class="dp-label">Progress %</label>
+            <input id="dpProgress" type="number" min="0" max="100" />
+          </div>
+        </div>
+        <div class="dp-field">
+          <label class="dp-label">⚡ Live Status</label>
+          <textarea id="dpLiveStatus" rows="2" class="live-status-input" placeholder="Quick update for the team…"></textarea>
+        </div>
+        <div class="dp-row2">
+          <div class="dp-field">
+            <label class="dp-label">Owner</label>
+            <input id="dpOwner" type="text" />
+          </div>
+          <div class="dp-field">
+            <label class="dp-label">Due Date</label>
+            <input id="dpDueDate" type="date" />
+          </div>
+        </div>
+        <div class="dp-row2">
+          <div class="dp-field">
+            <label class="dp-label">Pillar</label>
+            <select id="dpPillar"></select>
+          </div>
+          <div class="dp-field">
+            <label class="dp-label">Phase</label>
+            <select id="dpHorizon">
+              <option value="30">30-day</option>
+              <option value="60">60-day</option>
+              <option value="90">90-day</option>
+            </select>
+          </div>
+        </div>
+        <div class="dp-field">
+          <label class="dp-label">Description</label>
+          <textarea id="dpDescription" rows="3"></textarea>
+        </div>
+        <div class="dp-field">
+          <label class="dp-label">Progress Notes</label>
+          <textarea id="dpProgressText" rows="3"></textarea>
+        </div>
+        <div class="dp-field">
+          <label class="dp-label">Help Needed</label>
+          <textarea id="dpHelpNeeded" rows="2"></textarea>
+        </div>
+      </div>
+      <div class="dp-footer">
+        <button id="dpDeleteBtn" class="btn btn-danger">🗑 Delete</button>
+        <button id="dpSaveBtn" class="btn btn-brand">✓ Save Changes</button>
+      </div>
+    </aside>
+
     <script src="./app.js"></script>
   </body>
 </html>

@@ -73,6 +73,7 @@ async function bootstrap() {
   configureFilters();
   bindEvents();
   bindTabs();
+  bindDetailPanel();
   render();
   loadSlackConfig();
 }
@@ -606,4 +607,118 @@ function tagStyle(name) {
 }
 function escapeHtml(v) {
   return String(v ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SLIDE-IN DETAIL PANEL
+   ═══════════════════════════════════════════════════════════════════════ */
+let _dpCurrentId = null;
+const dpPanel    = () => document.getElementById("detailPanel");
+const dpBackdrop = () => document.getElementById("dpBackdrop");
+
+function bindDetailPanel() {
+  // Populate select options
+  fillSelect(document.getElementById("dpPillar"), PILLARS);
+  fillSelect(document.getElementById("dpStatus"), STATUSES);
+
+  document.getElementById("dpClose").addEventListener("click", closeDetailPanel);
+  document.getElementById("dpBackdrop").addEventListener("click", closeDetailPanel);
+  document.getElementById("dpSaveBtn").addEventListener("click", saveDetailPanel);
+  document.getElementById("dpDeleteBtn").addEventListener("click", deleteFromPanel);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDetailPanel(); });
+
+  // Row click delegation — open panel unless user clicked an interactive element
+  els.tableBody.addEventListener("click", (e) => {
+    if (e.target.closest("input, select, textarea, button, a")) return;
+    const row = e.target.closest("tr[data-id]");
+    if (row) openDetailPanel(row.dataset.id);
+  });
+}
+
+function openDetailPanel(id) {
+  const action = state.actions.find((a) => a.id === id);
+  if (!action) return;
+  _dpCurrentId = id;
+
+  // Header
+  document.getElementById("dpId").textContent = action.id;
+  const badge = document.getElementById("dpPillarBadge");
+  const h = Number(action.horizon) || 90;
+  badge.textContent = action.pillar;
+  badge.style.background = HORIZON_COLORS[h] || "#999";
+
+  const utag = document.getElementById("dpUrgencyTag");
+  const u = urgency(action);
+  utag.textContent = u !== "done" && u !== "later" ? u.toUpperCase().replace("-", " ") : "";
+  utag.className = `dp-urgency-tag ${u}`;
+
+  // Fields
+  document.getElementById("dpAction").value       = action.action       || "";
+  document.getElementById("dpDescription").value  = action.description  || "";
+  document.getElementById("dpProgressText").value = action.progressText || "";
+  document.getElementById("dpHelpNeeded").value   = action.helpNeeded   || "";
+  document.getElementById("dpLiveStatus").value   = action.liveStatus   || "";
+  document.getElementById("dpOwner").value        = action.owner        || "";
+  document.getElementById("dpDueDate").value      = action.dueDate      || "";
+  document.getElementById("dpProgress").value     = action.progress     ?? 0;
+  document.getElementById("dpStatus").value       = action.status       || "Not Started";
+  document.getElementById("dpPillar").value       = action.pillar       || PILLARS[0];
+  document.getElementById("dpHorizon").value      = String(h);
+
+  // Reset save button
+  const btn = document.getElementById("dpSaveBtn");
+  btn.textContent = "✓ Save Changes";
+  btn.disabled = false;
+
+  dpPanel().classList.add("open");
+  dpBackdrop().classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeDetailPanel() {
+  if (!dpPanel().classList.contains("open")) return;
+  dpPanel().classList.remove("open");
+  dpBackdrop().classList.remove("open");
+  document.body.style.overflow = "";
+  _dpCurrentId = null;
+}
+
+async function saveDetailPanel() {
+  if (!_dpCurrentId) return;
+  const action = state.actions.find((a) => a.id === _dpCurrentId);
+  if (!action) return;
+
+  const btn = document.getElementById("dpSaveBtn");
+  btn.disabled = true;
+  btn.textContent = "Saving…";
+
+  try {
+    await updateAction({
+      ...action,
+      action:       document.getElementById("dpAction").value.trim(),
+      description:  document.getElementById("dpDescription").value.trim(),
+      progressText: document.getElementById("dpProgressText").value.trim(),
+      helpNeeded:   document.getElementById("dpHelpNeeded").value.trim(),
+      liveStatus:   document.getElementById("dpLiveStatus").value.trim(),
+      owner:        document.getElementById("dpOwner").value.trim(),
+      dueDate:      document.getElementById("dpDueDate").value,
+      progress:     clampProgress(Number(document.getElementById("dpProgress").value)),
+      status:       document.getElementById("dpStatus").value,
+      pillar:       document.getElementById("dpPillar").value,
+      horizon:      Number(document.getElementById("dpHorizon").value) || 90,
+    });
+    await reloadDataAndRender();
+    closeDetailPanel();
+  } catch {
+    btn.textContent = "Error — try again";
+    btn.disabled = false;
+  }
+}
+
+async function deleteFromPanel() {
+  if (!_dpCurrentId) return;
+  if (!confirm(`Delete activity ${_dpCurrentId}? This cannot be undone.`)) return;
+  await removeAction(_dpCurrentId);
+  closeDetailPanel();
+  await reloadDataAndRender();
 }
