@@ -21,6 +21,7 @@ const HORIZON_COLORS = { 30: "#0176d3", 60: "#fe9339", 90: "#2e844a" };
 
 const state = {
   actions: [],
+  activeTab: "cockpit",
   filters: { pillar: "All", owner: "All", status: "All", search: "", sort: "Urgency (Most Urgent)", activityTag: "All", urgency: "All", horizon: "All" },
 };
 
@@ -47,8 +48,21 @@ async function bootstrap() {
   buildDialogPillarOptions();
   configureFilters();
   bindEvents();
+  bindTabs();
   render();
   loadSlackConfig();
+}
+
+/* ---------- tab switching ---------- */
+function bindTabs() {
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+  });
+}
+function switchTab(tabId) {
+  document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === tabId));
+  document.querySelectorAll(".tab-pane").forEach((p) => p.classList.toggle("hidden", p.id !== `tab-${tabId}`));
+  state.activeTab = tabId;
 }
 
 /* ---------- date / urgency helpers (mirror lib/plan.js) ---------- */
@@ -174,9 +188,10 @@ function renderHorizonSwimlanes() {
     </div>`;
   }).join("");
 
-  // click to filter
+  // click → switch to Activity Plan tab and filter by that phase
   els.horizonSwimlanesWrap.querySelectorAll(".horizon-lane").forEach((lane) => {
     lane.style.cursor = "pointer";
+    lane.title = "Click to open Activity Plan filtered to this phase";
     lane.addEventListener("click", () => {
       const h = lane.dataset.horizon;
       const label = `${h}-day`;
@@ -186,6 +201,7 @@ function renderHorizonSwimlanes() {
       } else {
         els.horizonFilter.value = label; state.filters.horizon = label;
       }
+      switchTab("plan");
       render();
     });
   });

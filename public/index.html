@@ -22,94 +22,117 @@
           <button id="logoutBtn" class="btn">Logout</button>
         </div>
       </header>
+
+      <!-- Tab bar -->
+      <nav class="tab-bar">
+        <button class="tab-btn active" data-tab="cockpit">📊 Cockpit</button>
+        <button class="tab-btn" data-tab="plan">📋 Activity Plan</button>
+      </nav>
       <p id="backupStatus" class="backup-status">Backup status: checking...</p>
 
-      <!-- Executive KPI strip -->
-      <section id="kpiStrip" class="kpi-strip"></section>
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!--  TAB: COCKPIT                                       -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <div id="tab-cockpit" class="tab-pane">
 
-      <!-- 30/60/90 Horizon Swimlanes -->
-      <section class="section-head horizon-head">
-        <h2>30 / 60 / 90-Day Plan Progress</h2>
-        <span class="hint">Phase completion across all pillars — click a lane to filter the table</span>
-      </section>
-      <div id="horizonSwimlanesWrap" class="horizon-wrap"></div>
+        <!-- Executive Summary -->
+        <section id="kpiStrip" class="kpi-strip"></section>
 
-      <!-- Wins momentum panel -->
-      <section class="section-head wins-head">
-        <h2>✅ Wins &amp; Completed</h2>
-        <span id="winsCount" class="badge badge-green">0 done</span>
-      </section>
-      <div id="winsPanel" class="wins-panel"></div>
+        <!-- 30/60/90 Horizon Swimlanes -->
+        <section class="section-head horizon-head">
+          <h2>30 / 60 / 90-Day Plan Progress</h2>
+          <span class="hint">Phase completion across all pillars — click a lane to filter the Activity Plan</span>
+        </section>
+        <div id="horizonSwimlanesWrap" class="horizon-wrap"></div>
 
-      <!-- This Week: owner to-dos + meeting/Slack control -->
-      <section class="week-head section-head">
-        <h2>This Week — To-Dos Before Wednesday</h2>
-        <span id="meetingCountdown" class="badge badge-amber">next meeting …</span>
-      </section>
-      <div class="week-grid">
-        <article class="card week-todos">
-          <div class="card-head">
-            <h3>Owner To-Do Board</h3>
-            <span class="hint">Open items due on/before the next Wednesday governance meeting — this is exactly what each owner receives via Slack Monday morning.</span>
-          </div>
-          <div id="ownerTodoBoard" class="owner-board"></div>
-        </article>
-        <aside class="card slack-panel">
-          <div class="card-head"><h3>Slack Monday Reminder</h3></div>
-          <p id="slackStatus" class="slack-status">Checking configuration…</p>
-          <ul id="slackOwnerMapping" class="mini-list"></ul>
-          <div class="slack-actions">
-            <button id="previewRemindersBtn" class="btn">Preview messages</button>
-            <button id="sendRemindersBtn" class="btn btn-brand">Send now</button>
-          </div>
-          <p id="slackSchedule" class="hint"></p>
-          <p id="sendResult" class="slack-status"></p>
-        </aside>
-      </div>
+        <!-- Wins momentum panel -->
+        <section class="section-head wins-head">
+          <h2>✅ Wins &amp; Completed</h2>
+          <span id="winsCount" class="badge badge-green">0 done</span>
+        </section>
+        <div id="winsPanel" class="wins-panel"></div>
 
-      <section>
-        <h2>Pillar Overview</h2>
-        <div id="pillarCards" class="pillar-grid"></div>
-      </section>
-
-      <section class="filters-head"><h2>Filters</h2></section>
-      <section class="filters card">
-        <label>Pillar<select id="pillarFilter"></select></label>
-        <label>Horizon<select id="horizonFilter"></select></label>
-        <label>Owner<select id="ownerFilter"></select></label>
-        <label>Status<select id="statusFilter"></select></label>
-        <label>Urgency<select id="urgencyFilter"></select></label>
-        <label>Search<input id="searchFilter" type="search" placeholder="Search activity or help needed" /></label>
-        <label>Sort By<select id="sortFilter"></select></label>
-      </section>
-
-      <section class="table-section">
-        <div class="section-head">
-          <h2>Activity Plan</h2>
-          <span id="rowCount" class="badge">0 actions</span>
+        <!-- This Week: owner to-dos + Slack -->
+        <section class="week-head section-head">
+          <h2>This Week — To-Dos Before Wednesday</h2>
+          <span id="meetingCountdown" class="badge badge-amber">next meeting …</span>
+        </section>
+        <div class="week-grid">
+          <article class="card week-todos">
+            <div class="card-head">
+              <h3>Owner To-Do Board</h3>
+              <span class="hint">Open items due on/before the next Wednesday governance meeting — this is exactly what each owner receives via Slack Monday morning.</span>
+            </div>
+            <div id="ownerTodoBoard" class="owner-board"></div>
+          </article>
+          <aside class="card slack-panel">
+            <div class="card-head"><h3>Slack Monday Reminder</h3></div>
+            <p id="slackStatus" class="slack-status">Checking configuration…</p>
+            <ul id="slackOwnerMapping" class="mini-list"></ul>
+            <div class="slack-actions">
+              <button id="previewRemindersBtn" class="btn">Preview messages</button>
+              <button id="sendRemindersBtn" class="btn btn-brand">Send now</button>
+            </div>
+            <p id="slackSchedule" class="hint"></p>
+            <p id="sendResult" class="slack-status"></p>
+          </aside>
         </div>
+
+        <!-- Pillar overview -->
+        <section>
+          <h2>Pillar Overview</h2>
+          <div id="pillarCards" class="pillar-grid"></div>
+        </section>
+
+        <!-- Weekly Focus -->
+        <section>
+          <h2>Weekly Focus</h2>
+          <div class="weekly-grid">
+            <article class="card"><h3>Overdue Actions</h3><ul id="overdueList"></ul></article>
+            <article class="card"><h3>Blocked Actions</h3><ul id="blockedList"></ul></article>
+            <article class="card"><h3>Help Requests</h3><ul id="helpList"></ul></article>
+          </div>
+        </section>
+
+      </div><!-- /tab-cockpit -->
+
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!--  TAB: ACTIVITY PLAN                                 -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <div id="tab-plan" class="tab-pane hidden">
+
+        <section class="filters-head plan-filters-head">
+          <div class="plan-filters-title">
+            <h2>Activity Plan</h2>
+            <span id="rowCount" class="badge">0 activities</span>
+          </div>
+        </section>
+
+        <section class="filters card">
+          <label>Pillar<select id="pillarFilter"></select></label>
+          <label>Phase<select id="horizonFilter"></select></label>
+          <label>Owner<select id="ownerFilter"></select></label>
+          <label>Status<select id="statusFilter"></select></label>
+          <label>Urgency<select id="urgencyFilter"></select></label>
+          <label>Search<input id="searchFilter" type="search" placeholder="Search activity or help needed" /></label>
+          <label>Sort By<select id="sortFilter"></select></label>
+        </section>
+
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>ID</th><th>Pillar</th><th>Activity</th><th>Description</th>
                 <th>Progress</th><th>Help Needed</th><th>Owner</th><th>Due Date</th>
-                <th>Status</th><th>Progress %</th><th>Phase</th><th>Remove</th>
+                <th>Status</th><th>%</th><th>Phase</th><th>Remove</th>
               </tr>
             </thead>
             <tbody id="actionsTableBody"></tbody>
           </table>
         </div>
-      </section>
 
-      <section>
-        <h2>Weekly Focus</h2>
-        <div class="weekly-grid">
-          <article class="card"><h3>Overdue Actions</h3><ul id="overdueList"></ul></article>
-          <article class="card"><h3>Blocked Actions</h3><ul id="blockedList"></ul></article>
-          <article class="card"><h3>Help Requests</h3><ul id="helpList"></ul></article>
-        </div>
-      </section>
+      </div><!-- /tab-plan -->
+
     </main>
 
     <dialog id="actionDialog">

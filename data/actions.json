@@ -178,7 +178,7 @@
       "owner": "Leandro Ventura",
       "pillar": "Reactive Attrition Recovery",
       "progress": 70,
-      "progressText": "Leandro\u00b4s team already aligned to participate in forecast calls or attrition committees to present ARI status to the leadership. Week 1 of July will be the first round.",
+      "progressText": "Leandro´s team already aligned to participate in forecast calls or attrition committees to present ARI status to the leadership. Week 1 of July will be the first round.",
       "status": "In Progress",
       "horizon": 30
     },
@@ -212,7 +212,7 @@
     },
     {
       "action": "Define use cases with Bradesco",
-      "description": "Define use cases for CRM and Bradesco \u00c1gora and agree with the Bank's sponsors.",
+      "description": "Define use cases for CRM and Bradesco Ágora and agree with the Bank's sponsors.",
       "dueDate": "2026-06-12",
       "helpNeeded": "",
       "id": "P4-02",
@@ -253,7 +253,7 @@
       "horizon": 60
     },
     {
-      "action": "Agree on start date from Bradesco \u00c1gora",
+      "action": "Agree on start date from Bradesco Ágora",
       "description": "Waiting customer's confirmation on team's availability to start the engagement. Feedbacks from stakeholders (Livia) that the team is meeting today to define the availability of the Bridge team to define the start date.",
       "dueDate": "2026-06-15",
       "helpNeeded": "Customer team availability to move at the expected pace is an issue. Escalated to Livia , Alvaro and Luiz",
@@ -310,7 +310,7 @@
     },
     {
       "action": "Expand SF Internal Stakeholder Involvement",
-      "description": "Include Phil, Guido, Silvia, Loli, and others \u2014 for broader buy-in\n",
+      "description": "Include Phil, Guido, Silvia, Loli, and others — for broader buy-in\n",
       "dueDate": "2026-07-10",
       "helpNeeded": "AP's to help schedule the sessions with each local leader.",
       "id": "P4-09",
@@ -339,15 +339,15 @@
     {
       "action": "Change Management Plan and Execution",
       "description": "Drive behavioral changes around software business understanding and sales partnership\n",
-      "dueDate": "2026-07-30",
+      "dueDate": "2026-09-30",
       "helpNeeded": "",
       "id": "P4-11",
-      "lastUpdate": "2026-07-01",
-      "owner": "Aline Faria",
+      "lastUpdate": "2026-09-15",
+      "owner": "Raquel Klafke",
       "pillar": "Proactive Consumption Booster",
       "progress": 0,
       "progressText": "",
-      "status": "Not Started",
+      "status": "In Progress",
       "horizon": 60
     },
     {
