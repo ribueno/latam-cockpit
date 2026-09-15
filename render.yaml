@@ -4,16 +4,10 @@ services:
     runtime: node
     buildCommand: npm install
     startCommand: node server.js
-    plan: starter             # persistent disk requires starter or above
-    disk:
-      name: latam-data
-      mountPath: /var/data
-      sizeGB: 1               # 1 GB (~$0.25/month) — more than enough for JSON
+    plan: free
     envVars:
       - key: NODE_ENV
         value: production
-      - key: DATA_DIR
-        value: /var/data      # points writes to the persistent disk
       - key: APP_USERNAME
         sync: false           # set in Render dashboard
       - key: APP_PASSWORD

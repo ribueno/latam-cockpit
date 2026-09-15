@@ -6,12 +6,12 @@
       "dueDate": "2026-06-30",
       "helpNeeded": "",
       "id": "P1-01",
-      "lastUpdate": "2026-07-07",
+      "lastUpdate": "2026-09-15",
       "owner": "Robin Gray",
       "pillar": "Build Foundation",
       "progress": 75,
       "progressText": "TV Azteca - Release 2 Started July\nCDF - In proposal",
-      "status": "In Progress",
+      "status": "Completed",
       "horizon": 30
     },
     {
@@ -34,12 +34,12 @@
       "dueDate": "2026-06-24",
       "helpNeeded": "",
       "id": "P1-03",
-      "lastUpdate": "2026-06-19",
+      "lastUpdate": "2026-09-15",
       "owner": "Emily Coban",
       "pillar": "Build Foundation",
       "progress": 0,
       "progressText": "No budget for extra SWEs. For Bradesco, Claro CO, Dataprev, Prodesp and Agibank we are good.\n",
-      "status": "Not Started",
+      "status": "Completed",
       "horizon": 30
     },
     {
@@ -62,12 +62,12 @@
       "dueDate": "2026-08-28",
       "helpNeeded": "",
       "id": "P1-05",
-      "lastUpdate": "2026-07-08",
+      "lastUpdate": "2026-09-15",
       "owner": "Robin Gray",
       "pillar": "Build Foundation",
       "progress": 10,
       "progressText": "Projects currently rolling out:\n\nTV Azteca\nTECO B2B\nClaro Colombia\nProdesp",
-      "status": "Not Started",
+      "status": "In Progress",
       "horizon": 90
     },
     {
@@ -104,12 +104,12 @@
       "dueDate": "2026-07-31",
       "helpNeeded": "",
       "id": "P1-08",
-      "lastUpdate": "2026-07-08",
+      "lastUpdate": "2026-09-15",
       "owner": "Robin Gray",
       "pillar": "Build Foundation",
-      "progress": 0,
+      "progress": 10,
       "progressText": "",
-      "status": "Not Started",
+      "status": "In Progress",
       "horizon": 60
     },
     {
@@ -146,12 +146,12 @@
       "dueDate": "2026-07-10",
       "helpNeeded": "",
       "id": "P2-03",
-      "lastUpdate": "2026-07-01",
+      "lastUpdate": "2026-09-15",
       "owner": "Cleri Inhauser",
       "pillar": "Proactive Attrition Prevention",
       "progress": 20,
       "progressText": "Discussions and agreements in place with Maria Dolores and Hortencia. Waiting on feedback from Hortencia on Pilots",
-      "status": "In Progress",
+      "status": "Completed",
       "horizon": 60
     },
     {
@@ -286,12 +286,12 @@
       "dueDate": "2026-07-10",
       "helpNeeded": "",
       "id": "P4-07",
-      "lastUpdate": "2026-07-01",
+      "lastUpdate": "2026-09-15",
       "owner": "Cleri Inhauser",
       "pillar": "Proactive Consumption Booster",
       "progress": 100,
       "progressText": "Customers:\nProdesp: OK\nDataprev: OK\nAgibank: OK\nBradesco: OK\nClaro CO: Pending Confirmation\nBanco Macro: Organizing workshop\nTelecom Argentina: Customer meeting on the 29/06\nNissan: Investigating Use Cases and implementation dependencies.\nPetrobras: Ok\nYPF: Ok\n\n",
-      "status": "In Progress",
+      "status": "Completed",
       "horizon": 60
     },
     {
@@ -370,12 +370,12 @@
       "dueDate": "2026-07-10",
       "helpNeeded": "",
       "id": "P4-14",
-      "lastUpdate": "2026-07-01",
+      "lastUpdate": "2026-09-15",
       "owner": "Cleri Inhauser",
       "pillar": "Proactive Consumption Booster",
       "progress": 10,
       "progressText": "",
-      "status": "In Progress",
+      "status": "Completed",
       "horizon": 60
     },
     {
@@ -398,12 +398,12 @@
       "dueDate": "2026-07-10",
       "helpNeeded": "",
       "id": "P4-17",
-      "lastUpdate": "2026-07-01",
+      "lastUpdate": "2026-09-15",
       "owner": "Cleri Inhauser",
       "pillar": "Proactive Consumption Booster",
       "progress": 60,
       "progressText": "Database created, slack and UI in place, missing wider-comms.",
-      "status": "In Progress",
+      "status": "Completed",
       "horizon": 60
     },
     {
@@ -412,12 +412,12 @@
       "dueDate": "2026-06-30",
       "helpNeeded": "",
       "id": "P4-18",
-      "lastUpdate": "2026-07-02",
+      "lastUpdate": "2026-09-15",
       "owner": "Robin Gray",
       "pillar": "Reactive Attrition Recovery",
       "progress": 70,
       "progressText": "Mainly ARI projects are already using AI tools",
-      "status": "In Progress",
+      "status": "Completed",
       "horizon": 30
     }
   ],
