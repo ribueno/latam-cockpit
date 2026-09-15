@@ -24,6 +24,10 @@ services:
         value: America/New_York
       - key: REMINDER_ENABLED
         value: "true"
+      - key: GITHUB_TOKEN
+        sync: false           # Personal Access Token — set in Render dashboard
+      - key: GITHUB_REPO
+        value: ribueno/latam-cockpit
       - key: APP_URL
         fromService:
           name: latam-cockpit
