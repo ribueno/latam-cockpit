@@ -500,6 +500,17 @@ function sortActions(items) {
 }
 function cmpDate(a, b) { if (!a && !b) return 0; if (!a) return 1; if (!b) return -1; return new Date(a) - new Date(b); }
 
+/* ---------- cockpit-only re-render (no table = no focus/scroll loss) ---------- */
+function renderCockpitOnly() {
+  renderKpis();
+  renderHorizonSwimlanes();
+  renderWinsPanel();
+  renderMeetingCountdown();
+  renderOwnerBoard();
+  renderPillarCards();
+  renderWeeklyFocus();
+}
+
 /* ---------- inline edit / CRUD ---------- */
 async function handleInlineEdit(event) {
   const tr = event.target.closest("tr");
@@ -509,13 +520,32 @@ async function handleInlineEdit(event) {
   let value = event.target.value;
   if (field === "progress") value = clampProgress(Number(value));
   action[field] = value;
-  await updateAction(action);
-  await reloadDataAndRender();
+
+  // Instant optimistic update — dashboard reflects the change immediately
+  // without re-rendering the table (so focus & scroll are preserved)
+  renderCockpitOnly();
+
+  els.backupStatus.textContent = "💾 Saving…";
+  try {
+    await updateAction(action);
+    els.backupStatus.textContent = "✓ Saved";
+    setTimeout(() => refreshBackupStatus(), 2000);
+  } catch (err) {
+    console.error("Inline edit save failed:", err);
+    els.backupStatus.textContent = "⚠ Save failed — server may be waking up, try again in a moment";
+    // Roll back in-memory state to what the server actually has
+    try { state.actions = await loadData(); renderCockpitOnly(); } catch { /* best effort */ }
+  }
 }
 async function handleDelete(event) {
   const tr = event.target.closest("tr");
-  await removeAction(tr.dataset.id);
-  await reloadDataAndRender();
+  try {
+    await removeAction(tr.dataset.id);
+    await reloadDataAndRender();
+  } catch (err) {
+    console.error("Delete failed:", err);
+    els.backupStatus.textContent = "⚠ Delete failed — try again";
+  }
 }
 async function reloadDataAndRender() {
   state.actions = await loadData();
@@ -718,7 +748,17 @@ async function saveDetailPanel() {
 async function deleteFromPanel() {
   if (!_dpCurrentId) return;
   if (!confirm(`Delete activity ${_dpCurrentId}? This cannot be undone.`)) return;
-  await removeAction(_dpCurrentId);
-  closeDetailPanel();
-  await reloadDataAndRender();
+  const btn = document.getElementById("dpDeleteBtn");
+  btn.disabled = true;
+  btn.textContent = "Deleting…";
+  try {
+    await removeAction(_dpCurrentId);
+    closeDetailPanel();
+    await reloadDataAndRender();
+  } catch (err) {
+    console.error("Delete from panel failed:", err);
+    btn.textContent = "⚠ Error — try again";
+    btn.disabled = false;
+    els.backupStatus.textContent = "⚠ Delete failed — server may be waking up, try again";
+  }
 }
