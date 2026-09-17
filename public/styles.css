@@ -220,9 +220,10 @@ input:focus, select:focus, textarea:focus { outline: 2px solid rgb(1 118 211 / 2
 
 /* Table */
 .table-section { margin-top: 1rem; }
-.plan-filters-head { margin-top: 1rem; }
+.plan-filters-head { margin-top: 1rem; display: flex; align-items: center; justify-content: space-between; }
 .plan-filters-title { display: flex; align-items: center; gap: 0.65rem; }
 .plan-filters-title h2 { margin: 0; }
+.sync-btn { font-size: 0.82rem; padding: 0.35rem 0.9rem; white-space: nowrap; }
 .table-wrap { background: #fff; border: 1px solid var(--slds-border); border-radius: 0.5rem; overflow: auto; max-height: 72vh; margin-top: 0.75rem; }
 table { width: 100%; border-collapse: collapse; min-width: 1680px; }
 th, td { border-bottom: 1px solid #f0efef; padding: 0.45rem; vertical-align: top; }

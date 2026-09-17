@@ -59,6 +59,7 @@ const els = {
   actionDialog: $("#actionDialog"), addActionBtn: $("#addActionBtn"), downloadBackupBtn: $("#downloadBackupBtn"),
   logoutBtn: $("#logoutBtn"), backupStatus: $("#backupStatus"), cancelDialogBtn: $("#cancelDialogBtn"),
   newActionForm: $("#newActionForm"), kpiStrip: $("#kpiStrip"), ownerTodoBoard: $("#ownerTodoBoard"),
+  syncBtn: $("#syncBtn"),
   meetingCountdown: $("#meetingCountdown"), slackStatus: $("#slackStatus"), slackOwnerMapping: $("#slackOwnerMapping"),
   slackSchedule: $("#slackSchedule"), previewRemindersBtn: $("#previewRemindersBtn"), sendRemindersBtn: $("#sendRemindersBtn"),
   sendResult: $("#sendResult"), previewDialog: $("#previewDialog"), previewBody: $("#previewBody"), closePreviewBtn: $("#closePreviewBtn"),
@@ -143,6 +144,21 @@ function bindEvents() {
   els.closePreviewBtn.addEventListener("click", () => els.previewDialog.close());
   els.previewRemindersBtn.addEventListener("click", previewReminders);
   els.sendRemindersBtn.addEventListener("click", sendReminders);
+  els.syncBtn.addEventListener("click", async () => {
+    const btn = els.syncBtn;
+    btn.disabled = true;
+    btn.textContent = "⏳ Syncing…";
+    try {
+      await reloadDataAndRender();
+      btn.textContent = "✓ Synced!";
+      setTimeout(() => { btn.textContent = "🔄 Sync to Cockpit"; btn.disabled = false; }, 2000);
+    } catch (err) {
+      console.error("Sync failed:", err);
+      btn.textContent = "⚠ Failed — retry";
+      btn.disabled = false;
+      els.backupStatus.textContent = "⚠ Sync failed — server may be waking up, try again";
+    }
+  });
   // Generic section toggles — works for any btn with data-toggle="elementId"
   document.querySelectorAll(".btn-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
