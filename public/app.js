@@ -77,6 +77,68 @@ async function bootstrap() {
   bindDetailPanel();
   render();
   loadSlackConfig();
+  connectSSE();
+  initInactivityTimer();
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   REAL-TIME SYNC  — Server-Sent Events
+   The server broadcasts "data-changed" after every POST / PUT / DELETE.
+   We skip the reload if (a) the user is actively editing a table cell,
+   or (b) we just saved locally (<3 s ago, to avoid double-render).
+   ═══════════════════════════════════════════════════════════════════════ */
+let _lastLocalSaveMs = 0;
+
+function connectSSE() {
+  const es = new EventSource("/api/events");
+  es.addEventListener("data-changed", () => {
+    const active = document.activeElement;
+    if (active && els.tableBody.contains(active)) return; // user is mid-edit
+    if (Date.now() - _lastLocalSaveMs < 3000) return;     // our own recent save
+    reloadDataAndRender();
+  });
+  es.onerror = () => {
+    es.close();
+    setTimeout(connectSSE, 6000); // reconnect after 6 s
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SESSION INACTIVITY TIMER  — auto-logout after 5 min of no interaction
+   Warning toast appears at 4 min 30 s.
+   ═══════════════════════════════════════════════════════════════════════ */
+const INACTIVITY_MS  = 5 * 60 * 1000;      // 5 minutes
+const WARN_BEFORE_MS = 30 * 1000;           // warn 30 s before logout
+let _idleTimer = null;
+let _warnTimer = null;
+let _warnToast = null;
+
+function resetIdleTimers() {
+  clearTimeout(_idleTimer);
+  clearTimeout(_warnTimer);
+  if (_warnToast) { _warnToast.remove(); _warnToast = null; }
+
+  _warnTimer = setTimeout(() => {
+    _warnToast = document.createElement("div");
+    _warnToast.className = "inactivity-toast";
+    _warnToast.innerHTML =
+      `⏳ You'll be logged out in <strong>30 seconds</strong> due to inactivity.
+       <button id="stayBtn">Stay logged in</button>`;
+    document.body.appendChild(_warnToast);
+    document.getElementById("stayBtn").addEventListener("click", resetIdleTimers);
+  }, INACTIVITY_MS - WARN_BEFORE_MS);
+
+  _idleTimer = setTimeout(async () => {
+    await fetch("/api/logout", { method: "POST" }).catch(() => {});
+    window.location.href = "/login";
+  }, INACTIVITY_MS);
+}
+
+function initInactivityTimer() {
+  ["mousemove", "mousedown", "keydown", "touchstart", "scroll", "click"].forEach(
+    (e) => document.addEventListener(e, resetIdleTimers, { passive: true })
+  );
+  resetIdleTimers();
 }
 
 /* ---------- tab switching ---------- */
@@ -544,6 +606,7 @@ async function handleInlineEdit(event) {
   els.backupStatus.textContent = "💾 Saving…";
   try {
     await updateAction(action);
+    _lastLocalSaveMs = Date.now();
     els.backupStatus.textContent = "✓ Saved";
     setTimeout(() => refreshBackupStatus(), 2000);
   } catch (err) {
@@ -753,6 +816,7 @@ async function saveDetailPanel() {
       pillar:       document.getElementById("dpPillar").value,
       horizon:      Number(document.getElementById("dpHorizon").value) || 90,
     });
+    _lastLocalSaveMs = Date.now();
     await reloadDataAndRender();
     closeDetailPanel();
   } catch {

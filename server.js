@@ -14,6 +14,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, "public");
 
+// ---- SSE broadcast registry ---------------------------------------------
+const sseClients = new Set();
+function broadcastChange() {
+  for (const res of sseClients) {
+    try { res.write("event: data-changed\ndata: {}\n\n"); }
+    catch { sseClients.delete(res); }
+  }
+}
+
 const APP_USERNAME = process.env.APP_USERNAME || "denise";
 const APP_PASSWORD = process.env.APP_PASSWORD || "change-me-please";
 
@@ -23,7 +32,8 @@ app.use(
     secret: process.env.SESSION_SECRET || "latam-cockpit-dev-secret",
     resave: false,
     saveUninitialized: false,
-    cookie: { httpOnly: true, sameSite: "lax", maxAge: 1000 * 60 * 60 * 12 },
+    rolling: true,                             // reset cookie expiry on every response
+    cookie: { httpOnly: true, sameSite: "lax", maxAge: 1000 * 60 * 5 }, // 5 min inactivity
   })
 );
 
@@ -53,6 +63,21 @@ app.post("/api/login", (req, res) => {
 
 app.post("/api/logout", (req, res) => {
   req.session.destroy(() => res.json({ ok: true }));
+});
+
+// ---- Server-Sent Events (real-time sync) --------------------------------
+app.get("/api/events", requireAuth, (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+  // Heartbeat every 25 s to keep the connection alive through proxies
+  const heartbeat = setInterval(() => {
+    try { res.write(": heartbeat\n\n"); } catch { /* closed */ }
+  }, 25000);
+  res.write("event: connected\ndata: {}\n\n");
+  sseClients.add(res);
+  req.on("close", () => { sseClients.delete(res); clearInterval(heartbeat); });
 });
 
 // Static assets that are safe pre-auth (logo, login styles are inline).
@@ -96,6 +121,7 @@ app.post("/api/actions", requireAuth, async (req, res) => {
     };
     actions.push(action);
     await store.writeActions(actions);
+    broadcastChange();
     res.json({ ok: true, action });
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
@@ -118,6 +144,7 @@ app.put("/api/actions/:id", requireAuth, async (req, res) => {
       lastUpdate: store.todayDate(),
     };
     await store.writeActions(actions);
+    broadcastChange();
     res.json({ ok: true, action: actions[idx] });
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
@@ -128,6 +155,7 @@ app.delete("/api/actions/:id", requireAuth, async (req, res) => {
   try {
     const actions = (await store.readActions()).filter((a) => a.id !== req.params.id);
     await store.writeActions(actions);
+    broadcastChange();
     res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
