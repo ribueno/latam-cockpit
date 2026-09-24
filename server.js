@@ -9,6 +9,9 @@ const cron = require("node-cron");
 const store = require("./lib/store");
 const plan = require("./lib/plan");
 const slack = require("./lib/slack");
+const kpi = require("./lib/kpi");
+const canvas = require("./lib/canvas");
+const ingest = require("./lib/ingest");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -226,6 +229,48 @@ app.post("/api/reminders/send", requireAuth, async (req, res) => {
   }
 });
 
+// ---- KPI cockpit API ----------------------------------------------------
+// Preview the 6 weekly KPIs + rendered canvas markdown (no Slack calls).
+app.get("/api/kpis", requireAuth, async (_req, res) => {
+  try {
+    const kpis = await kpi.collectKpis();
+    res.json({ ok: true, kpis, markdown: kpi.buildCanvasMarkdown(kpis) });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Publish/refresh the Slack canvas now.
+app.post("/api/kpis/publish", requireAuth, async (_req, res) => {
+  if (!process.env.SLACK_BOT_TOKEN) {
+    return res.status(400).json({ ok: false, error: "SLACK_BOT_TOKEN not configured" });
+  }
+  try {
+    const kpis = await kpi.collectKpis();
+    const markdown = kpi.buildCanvasMarkdown(kpis);
+    const result = await canvas.publishCanvas(markdown, { dryRun: false });
+    res.json({ ok: true, kpis, canvasId: result.canvasId, created: result.created });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Ingest a pushed KPI value (e.g. the ARI Apps Script on a weekly trigger).
+// NOT session-protected — guarded by INGEST_SECRET so external jobs can post.
+app.post("/api/kpis/ingest", (req, res) => {
+  const secret = process.env.INGEST_SECRET;
+  const given = req.get("x-ingest-secret") || req.body?.secret;
+  if (!secret || given !== secret) return res.status(403).json({ ok: false, error: "forbidden" });
+  const { key, value, asOf } = req.body || {};
+  if (!key || value == null) return res.status(400).json({ ok: false, error: "key and value required" });
+  try {
+    const stored = ingest.set(key, value, asOf);
+    res.json({ ok: true, stored: { key, ...stored } });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 // ---- Helpers ------------------------------------------------------------
 function clampProgress(value) {
   const n = Number(value);
@@ -263,10 +308,47 @@ function scheduleReminders() {
   console.log(`[reminders] scheduled "${expr}" (${tz}), enabled=${enabled}`);
 }
 
+// ---- Weekly KPI cockpit cron -------------------------------------------
+function scheduleCockpit() {
+  const expr = process.env.COCKPIT_CRON || "0 8 * * 1";
+  const tz = process.env.REMINDER_TZ || "America/New_York";
+  const enabled = String(process.env.COCKPIT_ENABLED).toLowerCase() === "true";
+  if (!enabled) {
+    console.log("[cockpit] weekly canvas disabled (set COCKPIT_ENABLED=true)");
+    return;
+  }
+  if (!cron.validate(expr)) {
+    console.warn(`[cockpit] invalid COCKPIT_CRON "${expr}" — skipping schedule`);
+    return;
+  }
+  cron.schedule(
+    expr,
+    async () => {
+      console.log(`[cockpit] cron fired @ ${new Date().toISOString()}`);
+      try {
+        const kpis = await kpi.collectKpis();
+        const markdown = kpi.buildCanvasMarkdown(kpis);
+        if (!process.env.SLACK_BOT_TOKEN) {
+          console.log("[cockpit] SLACK_BOT_TOKEN unset — preview only:\n" + markdown);
+          return;
+        }
+        const result = await canvas.publishCanvas(markdown, { dryRun: false });
+        await canvas.pingGm(result.canvasId);
+        console.log(`[cockpit] canvas ${result.created ? "created" : "updated"}: ${result.canvasId}`);
+      } catch (err) {
+        console.error("[cockpit] failed:", err.message);
+      }
+    },
+    { timezone: tz }
+  );
+  console.log(`[cockpit] scheduled "${expr}" (${tz})`);
+}
+
 app.listen(PORT, async () => {
   store.ensureDirs();
   // Pre-hydrate the store so the first request is fast
   await store.readActions();
   console.log(`LATAM cockpit running on http://localhost:${PORT}`);
   scheduleReminders();
+  scheduleCockpit();
 });

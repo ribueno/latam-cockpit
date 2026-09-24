@@ -1,0 +1,59 @@
+{
+  "_comment": "Copy to config/cockpit.json (gitignored) and fill in real view IDs, filters, and targets. Secrets (Tableau PAT, ARI key) live in .env, NOT here.",
+
+  "tableau": {
+    "kpis": [
+      {
+        "key": "bookings",
+        "label": "Bookings",
+        "viewId": "TODO-view-luid-for-weekly-details",
+        "filters": { "Region": "LATAM" },
+        "extract": { "measureColumn": "Bookings", "where": { "Measure Names": "Bookings" }, "agg": "first" }
+      },
+      {
+        "key": "revenue",
+        "label": "Revenue",
+        "viewId": "TODO-view-luid-for-weekly-details",
+        "filters": { "Region": "LATAM" },
+        "extract": { "measureColumn": "Revenue", "where": { "Measure Names": "Revenue" }, "agg": "first" }
+      },
+      {
+        "key": "utilization",
+        "label": "Utilization",
+        "viewId": "TODO-view-luid-for-weekly-details",
+        "filters": { "Region": "LATAM" },
+        "extract": { "measureColumn": "Utilization", "where": { "Measure Names": "Utilization" }, "agg": "first" }
+      },
+      {
+        "key": "projectsRed",
+        "label": "Projects in Red",
+        "viewId": "TODO-view-luid-for-weekly-details",
+        "filters": { "Region": "LATAM" },
+        "extract": { "measureColumn": "Project", "where": { "RAG": "Red" }, "agg": "count" }
+      }
+    ]
+  },
+
+  "ownership": {
+    "dataScriptId": "play1Data",
+    "ownerField": "act",
+    "proServMatch": ["ProServ"],
+    "activatedField": "activated",
+    "activatedTrue": [true, "true", "Yes", "Activated"]
+  },
+
+  "targets": {
+    "bookings":       { "target": 10000000, "yellowBand": 0.1 },
+    "revenue":        { "target": 8000000,  "yellowBand": 0.1 },
+    "utilization":    { "target": 80,       "yellowBand": 0.05 },
+    "projectsRed":    { "target": 3,        "yellowBand": 0.34 },
+    "bench":          { "target": 10,       "yellowBand": 0.2 },
+    "headcount":      { "target": 200,      "yellowBand": 0.05 },
+    "gdcUsage":       { "target": 40,       "yellowBand": 0.1 },
+    "tmBillRate":     { "target": 200,      "yellowBand": 0.1 },
+    "deliveryMargin": { "target": 35,       "yellowBand": 0.1 },
+    "pipeGen":        { "target": 15000000, "yellowBand": 0.1 },
+    "ari":            { "target": 90,       "yellowBand": 0.1 },
+    "activation":     { "target": 85,       "yellowBand": 0.1 }
+  }
+}
