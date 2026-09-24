@@ -2,5 +2,11 @@ node_modules/
 .env
 data/backups/
 slack/owners.json
+config/cockpit.json
+data/cockpit-state.json
+data/matriz-ownership-FY28.html
+data/coworker-activation.html
+data/latam-kpis.csv
+data/kpi-ingest.json
 npm-debug.log*
 .DS_Store
