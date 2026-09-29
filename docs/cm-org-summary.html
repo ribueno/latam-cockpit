@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CM Org – FY27 Headcount Summary</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg:        #0b0e1a;
+      --surface:   #111827;
+      --surface2:  #1c2333;
+      --border:    #2a3347;
+      --text:      #e2e8f0;
+      --text-muted:#8fa3bf;
+      --accent:    #0070D2;
+      --accent2:   #2E844A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Salesforce Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #0b1a2e 0%, #0d2137 50%, #0b1a2e 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 48px 32px;
+    }
+    .page-header .logo-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    }
+    .sf-logo {
+      width: 32px; height: 32px; background: var(--accent); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; color: white;
+    }
+    .org-badge {
+      background: rgba(0,112,210,0.15); border: 1px solid rgba(0,112,210,0.3);
+      color: #4BC3E6; font-size: 11px; font-weight: 600; letter-spacing: .5px;
+      padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+    }
+    h1 { font-size: 28px; font-weight: 700; letter-spacing: -.3px; color: white; margin-bottom: 4px; }
+    .subtitle { color: var(--text-muted); font-size: 14px; }
+
+    .kpi-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--border); border-bottom: 1px solid var(--border);
+    }
+    .kpi {
+      background: var(--surface); padding: 24px 32px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .kpi-value {
+      font-size: 36px; font-weight: 700;
+      background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .kpi-label { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: .6px; }
+    .kpi-sub { font-size: 11px; color: #4BC3E6; }
+
+    .section { padding: 40px 48px 0; }
+    .section-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+      gap: 20px; padding: 0 48px;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; transition: border-color .2s;
+    }
+    .card:hover { border-color: rgba(0,112,210,.5); }
+    .card-header {
+      padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 14px;
+      background: linear-gradient(135deg, var(--surface2) 0%, var(--surface) 100%);
+    }
+    .avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, #0070D2, #2E844A);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; color: white; flex-shrink: 0;
+    }
+    .leader-name { font-size: 15px; font-weight: 600; color: white; }
+    .leader-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .leader-meta strong { color: var(--text); }
+    .consolidated-badge {
+      font-size: 10px; color: #F4BC25;
+      background: rgba(244,188,37,0.1); border: 1px solid rgba(244,188,37,0.25);
+      border-radius: 4px; padding: 3px 8px; margin-top: 6px;
+      display: inline-block; line-height: 1.4;
+    }
+    .card-body { padding: 16px 24px; }
+
+    /* ── Profile rows — 4 columns now ── */
+    .profile-row {
+      display: grid;
+      grid-template-columns: 175px 1fr 72px;
+      align-items: center; gap: 10px; padding: 5px 0;
+    }
+    .profile-label {
+      font-size: 12px; color: var(--text-muted);
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .bar-wrap { background: rgba(255,255,255,.06); border-radius: 4px; height: 8px; overflow: hidden; }
+    .bar { height: 100%; border-radius: 4px; transition: width .3s ease; min-width: 2px; }
+
+    /* count + % together */
+    .profile-count {
+      font-size: 12px; font-weight: 600; color: var(--text);
+      text-align: right;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+    }
+    .pct-badge {
+      font-size: 10px; font-weight: 500;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .table-wrap { padding: 0 48px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: .5px;
+      padding: 10px 16px; border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.04);
+      color: var(--text); vertical-align: middle;
+    }
+    tr:hover td { background: rgba(255,255,255,.02); }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .family-cell { color: var(--text-muted); font-size: 11px; }
+    .bar-cell { width: 140px; }
+    .mini-bar { height: 6px; border-radius: 3px; min-width: 2px; }
+
+    .unmapped-card {
+      margin: 0 48px; background: var(--surface);
+      border: 1px solid #c16b1340; border-radius: 12px; overflow: hidden;
+    }
+    .unmapped-header {
+      padding: 14px 20px; background: #c16b1318;
+      border-bottom: 1px solid #c16b1330;
+      font-size: 12px; font-weight: 600; color: #C16B13;
+    }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0 48px; margin-bottom: 32px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+
+    .footer { margin-top: 60px; text-align: center; font-size: 11px; color: #4a5568; padding: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="logo-row">
+    <div class="sf-logo">S</div>
+    <span class="org-badge">ProServ AMER · CM Org</span>
+  </div>
+  <h1>FY27 Headcount Summary</h1>
+  <div class="subtitle">Christina Meitus's Organization · Grouped by L05 Leader &amp; FY27 Blueprint Job Family</div>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi">
+    <span class="kpi-value">3,584</span>
+    <span class="kpi-label">Total Headcount</span>
+    <span class="kpi-sub">Active employees</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-value">7</span>
+    <span class="kpi-label">L05 Leaders</span>
+    <span class="kpi-sub">Consolidated view</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-value">19</span>
+    <span class="kpi-label">Blueprint Groups</span>
+    <span class="kpi-sub">FY27 job profile taxonomy</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-value">1,508</span>
+    <span class="kpi-label">Technical Consulting</span>
+    <span class="kpi-sub">Largest job group (42% of org)</span>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Blueprint Legend</div>
+</div>
+<div class="legend"><span class="legend-item"><span class="dot" style="background:#0070D2"></span>Account Partner</span><span class="legend-item"><span class="dot" style="background:#1589EE"></span>Services Sales Solutions Lead</span><span class="legend-item"><span class="dot" style="background:#4BC3E6"></span>Services Sales Solutions Architect</span><span class="legend-item"><span class="dot" style="background:#00B5F1"></span>Business Strategy</span><span class="legend-item"><span class="dot" style="background:#2E844A"></span>Technical Consulting</span><span class="legend-item"><span class="dot" style="background:#3BA755"></span>Solution Consulting</span><span class="legend-item"><span class="dot" style="background:#5BBB7B"></span>Engagement Delivery</span><span class="legend-item"><span class="dot" style="background:#91DB8B"></span>Quality Assurance</span><span class="legend-item"><span class="dot" style="background:#F4BC25"></span>Experience Design</span><span class="legend-item"><span class="dot" style="background:#E8A600"></span>Human Centered Change</span><span class="legend-item"><span class="dot" style="background:#C16B13"></span>Delivery Manager</span><span class="legend-item"><span class="dot" style="background:#9E5000"></span>Delivery Leader</span><span class="legend-item"><span class="dot" style="background:#7B3F00"></span>Practice EM (Hybrid)</span><span class="legend-item"><span class="dot" style="background:#706E6B"></span>Operations</span><span class="legend-item"><span class="dot" style="background:#6B21A8"></span>Senior Leader</span><span class="legend-item"><span class="dot" style="background:#A0A0A0"></span>Admin</span><span class="legend-item"><span class="dot" style="background:#FF6B6B"></span>Security / GRC</span><span class="legend-item"><span class="dot" style="background:#BBBBBB"></span>Contractor</span><span class="legend-item"><span class="dot" style="background:#DDDDDD"></span>Intern</span><span class="legend-item"><span class="dot" style="background:#444444"></span>(blank)</span>
+</div>
+
+<div class="section">
+  <div class="section-title">L05 Leader Breakdown</div>
+</div>
+<div class="cards-grid">
+
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">CT</div>
+          <div class="leader-info">
+            <div class="leader-name">Courtney Tandeciarz</div>
+            <div class="leader-meta">L05 Leader · <strong>1,069</strong> headcount (29.8% of org)</div>
+            
+          </div>
+        </div>
+        <div class="card-body">
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#0070D2"></span>Account Partner</div>
+                <div class="bar-wrap"><div class="bar" style="width:5.9%;background:#0070D2"></div></div>
+                <div class="profile-count">63<span class="pct-badge">5.9%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#1589EE"></span>Services Sales Solutions Lead</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.4%;background:#1589EE"></div></div>
+                <div class="profile-count">26<span class="pct-badge">2.4%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#4BC3E6"></span>Services Sales Solutions Architect</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.6%;background:#4BC3E6"></div></div>
+                <div class="profile-count">28<span class="pct-badge">2.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#00B5F1"></span>Business Strategy</div>
+                <div class="bar-wrap"><div class="bar" style="width:1.9%;background:#00B5F1"></div></div>
+                <div class="profile-count">20<span class="pct-badge">1.9%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#2E844A"></span>Technical Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:30.7%;background:#2E844A"></div></div>
+                <div class="profile-count">328<span class="pct-badge">30.7%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#3BA755"></span>Solution Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:25.2%;background:#3BA755"></div></div>
+                <div class="profile-count">269<span class="pct-badge">25.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#5BBB7B"></span>Engagement Delivery</div>
+                <div class="bar-wrap"><div class="bar" style="width:18.3%;background:#5BBB7B"></div></div>
+                <div class="profile-count">196<span class="pct-badge">18.3%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#F4BC25"></span>Experience Design</div>
+                <div class="bar-wrap"><div class="bar" style="width:5.5%;background:#F4BC25"></div></div>
+                <div class="profile-count">59<span class="pct-badge">5.5%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#E8A600"></span>Human Centered Change</div>
+                <div class="bar-wrap"><div class="bar" style="width:3.4%;background:#E8A600"></div></div>
+                <div class="profile-count">36<span class="pct-badge">3.4%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#9E5000"></span>Delivery Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:1.8%;background:#9E5000"></div></div>
+                <div class="profile-count">19<span class="pct-badge">1.8%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#7B3F00"></span>Practice EM (Hybrid)</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.8%;background:#7B3F00"></div></div>
+                <div class="profile-count">9<span class="pct-badge">0.8%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#706E6B"></span>Operations</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.9%;background:#706E6B"></div></div>
+                <div class="profile-count">10<span class="pct-badge">0.9%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#6B21A8"></span>Senior Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.1%;background:#6B21A8"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.1%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#A0A0A0"></span>Admin</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.1%;background:#A0A0A0"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.1%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#FF6B6B"></span>Security / GRC</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.3%;background:#FF6B6B"></div></div>
+                <div class="profile-count">3<span class="pct-badge">0.3%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#BBBBBB"></span>Contractor</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.1%;background:#BBBBBB"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.1%</span></div>
+              </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">TR</div>
+          <div class="leader-info">
+            <div class="leader-name">Tom Ricketts</div>
+            <div class="leader-meta">L05 Leader · <strong>975</strong> headcount (27.2% of org)</div>
+            
+          </div>
+        </div>
+        <div class="card-body">
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#2E844A"></span>Technical Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:61.5%;background:#2E844A"></div></div>
+                <div class="profile-count">600<span class="pct-badge">61.5%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#3BA755"></span>Solution Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:13.0%;background:#3BA755"></div></div>
+                <div class="profile-count">127<span class="pct-badge">13.0%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#5BBB7B"></span>Engagement Delivery</div>
+                <div class="bar-wrap"><div class="bar" style="width:5.6%;background:#5BBB7B"></div></div>
+                <div class="profile-count">55<span class="pct-badge">5.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#91DB8B"></span>Quality Assurance</div>
+                <div class="bar-wrap"><div class="bar" style="width:13.0%;background:#91DB8B"></div></div>
+                <div class="profile-count">127<span class="pct-badge">13.0%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#F4BC25"></span>Experience Design</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.4%;background:#F4BC25"></div></div>
+                <div class="profile-count">23<span class="pct-badge">2.4%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#C16B13"></span>Delivery Manager</div>
+                <div class="bar-wrap"><div class="bar" style="width:4.2%;background:#C16B13"></div></div>
+                <div class="profile-count">41<span class="pct-badge">4.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#706E6B"></span>Operations</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.2%;background:#706E6B"></div></div>
+                <div class="profile-count">2<span class="pct-badge">0.2%</span></div>
+              </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">KF</div>
+          <div class="leader-info">
+            <div class="leader-name">Kevin Faulkner</div>
+            <div class="leader-meta">L05 Leader · <strong>569</strong> headcount (15.9% of org)</div>
+            
+          </div>
+        </div>
+        <div class="card-body">
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#0070D2"></span>Account Partner</div>
+                <div class="bar-wrap"><div class="bar" style="width:8.6%;background:#0070D2"></div></div>
+                <div class="profile-count">49<span class="pct-badge">8.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#1589EE"></span>Services Sales Solutions Lead</div>
+                <div class="bar-wrap"><div class="bar" style="width:5.6%;background:#1589EE"></div></div>
+                <div class="profile-count">32<span class="pct-badge">5.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#4BC3E6"></span>Services Sales Solutions Architect</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.7%;background:#4BC3E6"></div></div>
+                <div class="profile-count">4<span class="pct-badge">0.7%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#00B5F1"></span>Business Strategy</div>
+                <div class="bar-wrap"><div class="bar" style="width:1.1%;background:#00B5F1"></div></div>
+                <div class="profile-count">6<span class="pct-badge">1.1%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#2E844A"></span>Technical Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:36.7%;background:#2E844A"></div></div>
+                <div class="profile-count">209<span class="pct-badge">36.7%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#3BA755"></span>Solution Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:17.8%;background:#3BA755"></div></div>
+                <div class="profile-count">101<span class="pct-badge">17.8%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#5BBB7B"></span>Engagement Delivery</div>
+                <div class="bar-wrap"><div class="bar" style="width:20.2%;background:#5BBB7B"></div></div>
+                <div class="profile-count">115<span class="pct-badge">20.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#F4BC25"></span>Experience Design</div>
+                <div class="bar-wrap"><div class="bar" style="width:5.1%;background:#F4BC25"></div></div>
+                <div class="profile-count">29<span class="pct-badge">5.1%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#E8A600"></span>Human Centered Change</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.9%;background:#E8A600"></div></div>
+                <div class="profile-count">5<span class="pct-badge">0.9%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#9E5000"></span>Delivery Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.1%;background:#9E5000"></div></div>
+                <div class="profile-count">12<span class="pct-badge">2.1%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#7B3F00"></span>Practice EM (Hybrid)</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.5%;background:#7B3F00"></div></div>
+                <div class="profile-count">3<span class="pct-badge">0.5%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#706E6B"></span>Operations</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.4%;background:#706E6B"></div></div>
+                <div class="profile-count">2<span class="pct-badge">0.4%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#6B21A8"></span>Senior Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.2%;background:#6B21A8"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#A0A0A0"></span>Admin</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.2%;background:#A0A0A0"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.2%</span></div>
+              </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">LH</div>
+          <div class="leader-info">
+            <div class="leader-name">Leroy Harris</div>
+            <div class="leader-meta">L05 Leader · <strong>493</strong> headcount (13.8% of org)</div>
+            
+          </div>
+        </div>
+        <div class="card-body">
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#0070D2"></span>Account Partner</div>
+                <div class="bar-wrap"><div class="bar" style="width:7.3%;background:#0070D2"></div></div>
+                <div class="profile-count">36<span class="pct-badge">7.3%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#1589EE"></span>Services Sales Solutions Lead</div>
+                <div class="bar-wrap"><div class="bar" style="width:3.2%;background:#1589EE"></div></div>
+                <div class="profile-count">16<span class="pct-badge">3.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#4BC3E6"></span>Services Sales Solutions Architect</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.2%;background:#4BC3E6"></div></div>
+                <div class="profile-count">11<span class="pct-badge">2.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#00B5F1"></span>Business Strategy</div>
+                <div class="bar-wrap"><div class="bar" style="width:1.6%;background:#00B5F1"></div></div>
+                <div class="profile-count">8<span class="pct-badge">1.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#2E844A"></span>Technical Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:33.7%;background:#2E844A"></div></div>
+                <div class="profile-count">166<span class="pct-badge">33.7%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#3BA755"></span>Solution Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:21.7%;background:#3BA755"></div></div>
+                <div class="profile-count">107<span class="pct-badge">21.7%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#5BBB7B"></span>Engagement Delivery</div>
+                <div class="bar-wrap"><div class="bar" style="width:18.5%;background:#5BBB7B"></div></div>
+                <div class="profile-count">91<span class="pct-badge">18.5%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#F4BC25"></span>Experience Design</div>
+                <div class="bar-wrap"><div class="bar" style="width:5.9%;background:#F4BC25"></div></div>
+                <div class="profile-count">29<span class="pct-badge">5.9%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#E8A600"></span>Human Centered Change</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.2%;background:#E8A600"></div></div>
+                <div class="profile-count">11<span class="pct-badge">2.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#9E5000"></span>Delivery Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.6%;background:#9E5000"></div></div>
+                <div class="profile-count">13<span class="pct-badge">2.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#7B3F00"></span>Practice EM (Hybrid)</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.6%;background:#7B3F00"></div></div>
+                <div class="profile-count">3<span class="pct-badge">0.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#706E6B"></span>Operations</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.2%;background:#706E6B"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#A0A0A0"></span>Admin</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.2%;background:#A0A0A0"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.2%</span></div>
+              </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">GS</div>
+          <div class="leader-info">
+            <div class="leader-name">Gustavo Souza</div>
+            <div class="leader-meta">L05 Leader · <strong>450</strong> headcount (12.6% of org)</div>
+          </div>
+        </div>
+        <div class="card-body">
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#0070D2"></span>Account Partner</div>
+                <div class="bar-wrap"><div class="bar" style="width:4.0%;background:#0070D2"></div></div>
+                <div class="profile-count">18<span class="pct-badge">4.0%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#1589EE"></span>Services Sales Solutions Lead</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.7%;background:#1589EE"></div></div>
+                <div class="profile-count">12<span class="pct-badge">2.7%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#00B5F1"></span>Business Strategy</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.9%;background:#00B5F1"></div></div>
+                <div class="profile-count">13<span class="pct-badge">2.9%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#2E844A"></span>Technical Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:45.6%;background:#2E844A"></div></div>
+                <div class="profile-count">205<span class="pct-badge">45.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#3BA755"></span>Solution Consulting</div>
+                <div class="bar-wrap"><div class="bar" style="width:22.2%;background:#3BA755"></div></div>
+                <div class="profile-count">100<span class="pct-badge">22.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#5BBB7B"></span>Engagement Delivery</div>
+                <div class="bar-wrap"><div class="bar" style="width:13.6%;background:#5BBB7B"></div></div>
+                <div class="profile-count">61<span class="pct-badge">13.6%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#91DB8B"></span>Quality Assurance</div>
+                <div class="bar-wrap"><div class="bar" style="width:3.1%;background:#91DB8B"></div></div>
+                <div class="profile-count">14<span class="pct-badge">3.1%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#F4BC25"></span>Experience Design</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.7%;background:#F4BC25"></div></div>
+                <div class="profile-count">3<span class="pct-badge">0.7%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#E8A600"></span>Human Centered Change</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.2%;background:#E8A600"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.2%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#C16B13"></span>Delivery Manager</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.4%;background:#C16B13"></div></div>
+                <div class="profile-count">2<span class="pct-badge">0.4%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#9E5000"></span>Delivery Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:2.9%;background:#9E5000"></div></div>
+                <div class="profile-count">13<span class="pct-badge">2.9%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#7B3F00"></span>Practice EM (Hybrid)</div>
+                <div class="bar-wrap"><div class="bar" style="width:1.1%;background:#7B3F00"></div></div>
+                <div class="profile-count">5<span class="pct-badge">1.1%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#706E6B"></span>Operations</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.4%;background:#706E6B"></div></div>
+                <div class="profile-count">2<span class="pct-badge">0.4%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#DDDDDD"></span>Intern</div>
+                <div class="bar-wrap"><div class="bar" style="width:0.2%;background:#DDDDDD"></div></div>
+                <div class="profile-count">1<span class="pct-badge">0.2%</span></div>
+              </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">RT</div>
+          <div class="leader-info">
+            <div class="leader-name">(Direct Reports to Christina)</div>
+            <div class="leader-meta">L05 Leader · <strong>21</strong> headcount (0.6% of org)</div>
+            
+          </div>
+        </div>
+        <div class="card-body">
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#0070D2"></span>Account Partner</div>
+                <div class="bar-wrap"><div class="bar" style="width:19.0%;background:#0070D2"></div></div>
+                <div class="profile-count">4<span class="pct-badge">19.0%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#1589EE"></span>Services Sales Solutions Lead</div>
+                <div class="bar-wrap"><div class="bar" style="width:4.8%;background:#1589EE"></div></div>
+                <div class="profile-count">1<span class="pct-badge">4.8%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#9E5000"></span>Delivery Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:4.8%;background:#9E5000"></div></div>
+                <div class="profile-count">1<span class="pct-badge">4.8%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#7B3F00"></span>Practice EM (Hybrid)</div>
+                <div class="bar-wrap"><div class="bar" style="width:4.8%;background:#7B3F00"></div></div>
+                <div class="profile-count">1<span class="pct-badge">4.8%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#706E6B"></span>Operations</div>
+                <div class="bar-wrap"><div class="bar" style="width:9.5%;background:#706E6B"></div></div>
+                <div class="profile-count">2<span class="pct-badge">9.5%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#6B21A8"></span>Senior Leader</div>
+                <div class="bar-wrap"><div class="bar" style="width:19.0%;background:#6B21A8"></div></div>
+                <div class="profile-count">4<span class="pct-badge">19.0%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#A0A0A0"></span>Admin</div>
+                <div class="bar-wrap"><div class="bar" style="width:9.5%;background:#A0A0A0"></div></div>
+                <div class="profile-count">2<span class="pct-badge">9.5%</span></div>
+              </div>
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#444444"></span>(blank)</div>
+                <div class="bar-wrap"><div class="bar" style="width:28.6%;background:#444444"></div></div>
+                <div class="profile-count">6<span class="pct-badge">28.6%</span></div>
+              </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">AV</div>
+          <div class="leader-info">
+            <div class="leader-name">Alyssa van Eekeren</div>
+            <div class="leader-meta">L05 Leader · <strong>7</strong> headcount (0.2% of org)</div>
+            
+          </div>
+        </div>
+        <div class="card-body">
+              <div class="profile-row">
+                <div class="profile-label"><span class="dot" style="background:#706E6B"></span>Operations</div>
+                <div class="bar-wrap"><div class="bar" style="width:100.0%;background:#706E6B"></div></div>
+                <div class="profile-count">7<span class="pct-badge">100.0%</span></div>
+              </div>
+        </div>
+      </div>
+</div>
+
+<div class="section" style="margin-top:48px">
+  <div class="section-title">Global Job Profile Distribution</div>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th style="width:24px"></th>
+        <th>Family</th>
+        <th>Blueprint Group</th>
+        <th class="num">Count</th>
+        <th class="num">% of Org</th>
+        <th>Distribution</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td><span class="dot" style="background:#0070D2"></span></td>
+          <td class="family-cell">GTM</td>
+          <td>Account Partner</td>
+          <td class="num">170</td>
+          <td class="num">4.7%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:4.7%;background:#0070D2"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#1589EE"></span></td>
+          <td class="family-cell">GTM</td>
+          <td>Services Sales Solutions Lead</td>
+          <td class="num">87</td>
+          <td class="num">2.4%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:2.4%;background:#1589EE"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#4BC3E6"></span></td>
+          <td class="family-cell">GTM</td>
+          <td>Services Sales Solutions Architect</td>
+          <td class="num">43</td>
+          <td class="num">1.2%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:1.2%;background:#4BC3E6"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#00B5F1"></span></td>
+          <td class="family-cell">GTM</td>
+          <td>Business Strategy</td>
+          <td class="num">47</td>
+          <td class="num">1.3%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:1.3%;background:#00B5F1"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#2E844A"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Technical Consulting</td>
+          <td class="num">1,508</td>
+          <td class="num">42.1%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:42.1%;background:#2E844A"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#3BA755"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Solution Consulting</td>
+          <td class="num">704</td>
+          <td class="num">19.6%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:19.6%;background:#3BA755"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#5BBB7B"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Engagement Delivery</td>
+          <td class="num">518</td>
+          <td class="num">14.5%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:14.5%;background:#5BBB7B"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#91DB8B"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Quality Assurance</td>
+          <td class="num">141</td>
+          <td class="num">3.9%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:3.9%;background:#91DB8B"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#F4BC25"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Experience Design</td>
+          <td class="num">143</td>
+          <td class="num">4.0%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:4.0%;background:#F4BC25"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#E8A600"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Human Centered Change</td>
+          <td class="num">53</td>
+          <td class="num">1.5%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:1.5%;background:#E8A600"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#C16B13"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Delivery Manager</td>
+          <td class="num">43</td>
+          <td class="num">1.2%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:1.2%;background:#C16B13"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#9E5000"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Delivery Leader</td>
+          <td class="num">58</td>
+          <td class="num">1.6%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:1.6%;background:#9E5000"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#7B3F00"></span></td>
+          <td class="family-cell">Delivery</td>
+          <td>Practice EM (Hybrid)</td>
+          <td class="num">21</td>
+          <td class="num">0.6%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.6%;background:#7B3F00"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#706E6B"></span></td>
+          <td class="family-cell">Operations</td>
+          <td>Operations</td>
+          <td class="num">26</td>
+          <td class="num">0.7%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.7%;background:#706E6B"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#6B21A8"></span></td>
+          <td class="family-cell">Leadership</td>
+          <td>Senior Leader</td>
+          <td class="num">6</td>
+          <td class="num">0.2%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.2%;background:#6B21A8"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#A0A0A0"></span></td>
+          <td class="family-cell">Support</td>
+          <td>Admin</td>
+          <td class="num">5</td>
+          <td class="num">0.1%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.1%;background:#A0A0A0"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#FF6B6B"></span></td>
+          <td class="family-cell">Support</td>
+          <td>Security / GRC</td>
+          <td class="num">3</td>
+          <td class="num">0.1%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.1%;background:#FF6B6B"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#BBBBBB"></span></td>
+          <td class="family-cell">Support</td>
+          <td>Contractor</td>
+          <td class="num">1</td>
+          <td class="num">0.0%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.0%;background:#BBBBBB"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#DDDDDD"></span></td>
+          <td class="family-cell">Support</td>
+          <td>Intern</td>
+          <td class="num">1</td>
+          <td class="num">0.0%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.0%;background:#DDDDDD"></div></td>
+        </tr>
+        <tr>
+          <td><span class="dot" style="background:#444444"></span></td>
+          <td class="family-cell">Unknown</td>
+          <td>(blank)</td>
+          <td class="num">6</td>
+          <td class="num">0.2%</td>
+          <td class="bar-cell"><div class="mini-bar" style="width:0.2%;background:#444444"></div></td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+<div class="section" style="margin-top:40px">
+  <div class="section-title">Unmapped Profiles</div>
+</div>
+<div class="unmapped-card">
+  <div class="unmapped-header">⚠ 1 profile(s) not found in FY27 Blueprint taxonomy</div>
+  <table>
+    <thead><tr><th>Job Profile</th><th class="num">Count</th></tr></thead>
+    <tbody><tr><td>(blank)</td><td class="num">6</td></tr></tbody>
+  </table>
+</div>
+<div class="footer">Generated from CM Org · Salesforce ProServ AMER · FY27 Blueprint Job Family Taxonomy</div>
+</body>
+</html>
